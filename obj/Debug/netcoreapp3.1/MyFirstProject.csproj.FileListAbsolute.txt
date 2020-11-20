@@ -1,0 +1,13 @@
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.exe
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.deps.json
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.runtimeconfig.json
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.runtimeconfig.dev.json
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.dll
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.pdb
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csprojAssemblyReference.cache
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.AssemblyInfoInputs.cache
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.AssemblyInfo.cs
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.dll
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.pdb
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.genruntimeconfig.cache
