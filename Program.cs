@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Text;
+using MyFirstProject.Infrastructure.Enum;
+using MyFirstProject.Infrastructure.Model;
+using MyFirstProject.Infrastructure.Service;
+using ConsoleTables;
+
 
 namespace MyFirstProject
 {
     class Program
     {
+        private static MarketableServise _marketableServise =  new MarketableServise();
+
+       
         static void Main(string[] args)
         {
+            
               
-            Console.OutputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
+
 
             int select;
-            int begin;
-            do
+
+          do
             {
 
                 Console.WriteLine("==========SATIŞ VƏ MƏHSULLARIN İDARƏ EDİLMƏSİ==========");
@@ -40,9 +50,9 @@ namespace MyFirstProject
                 switch (select)
                 {
                     case 1:
-                         
-                        
 
+
+                        Console.WriteLine("0. Yenidən MENU-ya qayıymaq");
                         Console.WriteLine("1. Yeni məhsul elave et");
                         Console.WriteLine("2. Məhsul üzərində düzəliş et");
                         Console.WriteLine("3. Məhsulu sil");
@@ -56,18 +66,22 @@ namespace MyFirstProject
                         break;
 
                     case 2:
-
+                        Console.WriteLine("0. Yenidən MENU-ya qayıymaq");
                         Console.WriteLine("1. Yeni satış əlavə etmək");
-                        Console.WriteLine("2 Satışdakı hansısa məhsulun geri qaytarılması(satışdan cıxarılması)");
-                        Console.WriteLine("3 Satışın silinməsi");
-                        Console.WriteLine("4 Bütün satışlarn ekrana çıxarılması(nömrəsi,məbləği,məhsul sayı,tarixi)");
-                        Console.WriteLine("5 Verilən tarix aralığına görə satışların göstərilməsi");
-                        Console.WriteLine("6 Verilən məbləğ aralığına görə satışların göstərilməsi");
-                        Console.WriteLine("7 Verilmiş bir tarixdə olan satışların göstərilməsi");
-                        Console.WriteLine("8 Verilmiş nömrəyə əsasən həmin nömrəli satişın məlumatlarının göstərilməsi");
+                        Console.WriteLine("2. Satışdakı hansısa məhsulun geri qaytarılması(satışdan cıxarılması)");
+                        Console.WriteLine("3. Satışın silinməsi");
+                        Console.WriteLine("4. Bütün satışlarn ekrana çıxarılması(nömrəsi,məbləği,məhsul sayı,tarixi)");
+                        Console.WriteLine("5. Verilən tarix aralığına görə satışların göstərilməsi");
+                        Console.WriteLine("6. Verilən məbləğ aralığına görə satışların göstərilməsi");
+                        Console.WriteLine("7. Verilmiş bir tarixdə olan satışların göstərilməsi");
+                        Console.WriteLine("8. Verilmiş nömrəyə əsasən həmin nömrəli satişın məlumatlarının göstərilməsi");
                         SecondCase();
                         break;
-
+                   
+                    case 3:
+                        Console.WriteLine("=============SİSTEMDƏN İSTİFADƏ ETDİYİNİZ ÜÇÜN TƏŞƏKKÜR EDİRİK=============");
+                        break;
+                   
                     default:
 
                         Console.WriteLine("--------------------------------");
@@ -75,8 +89,12 @@ namespace MyFirstProject
                         Console.WriteLine("--------------------------------");
                         break;
 
-                }        } while (select != 3) ;
+   }                      } while (select != 3) ;
 
+           
+
+            
+            
             Console.WriteLine("==============================================================================");
 
 
@@ -111,6 +129,9 @@ namespace MyFirstProject
                         case 1:
 
                             Console.WriteLine("1. Yeni satış əlavə et");
+                            Console.WriteLine("============================================================");
+                            
+
                             break;
                         case 2:
 
@@ -153,13 +174,57 @@ namespace MyFirstProject
                             Console.WriteLine("Siz yanlış seçim etdiniz,1-8 arası seçim edə bilərsiniz");
                             Console.WriteLine("--------------------------------");
                             break;
-
+                     
 
                     }
 
 
                 } while (SecondSelect != 0);
             }
+
+
+            static  void AddNewProduct(Products product)
+            {
+
+
+            }
+            
+
+            static void EditCurrentProduct()
+            {
+               
+            }
+
+            static void RemoveProduct(string productCode)
+            {
+                
+            }
+
+
+            static void ShowAllProducts()
+            {
+                
+            }
+            static void ShowProductsByCategory(ProductCategory productCategory)
+            {
+                
+            }
+
+
+
+            static void GetProductsByPriceRange(double minPrice, double maxPrice)
+            {
+              
+            }
+
+            static void SearchProductByName(string productName)
+            {
+
+            }
+
+          
+           
+
 
             static void SecondCase()
             {
@@ -192,7 +257,7 @@ namespace MyFirstProject
                         case 1:
 
                             Console.WriteLine("1. Yeni satış əlavə et");
-                            break;
+                             break;
                         case 2:
 
                             Console.WriteLine("2. Satışdakı hansısa məhsulun geri qaytarılması(satışdan çıxarılması)");
@@ -207,6 +272,8 @@ namespace MyFirstProject
                         case 4:
 
                             Console.WriteLine("4. Bütün satışların ekrana cıxarılması (nömrəsi,məbləgi,mehsul sayı,tarixi)");
+                            Console.WriteLine("===========================================================================");
+                            ShowAllSales();
                             break;
 
                         case 5:
@@ -244,6 +311,92 @@ namespace MyFirstProject
 
 
             }
+
+
+            static void AddNewSales(Sales sales)
+            {
+               
+            }
+
+            static void RemoveSoldProduct(string productName, int productQuantity)
+            {
+                
+            }
+            static void RemoveSold(int numberOfsale)
+            {
+                
+            }
+            static void ShowAllSales()
+            {
+                Console.WriteLine("-------------- CURRENT SALES --------------");
+
+                var table = new ConsoleTable("#","Number of Sale" ,"Amount","Quantity", "Date");
+                
+            int i = 1;
+                foreach (var item in _marketableServise.Sales)
+                {
+                    foreach (var a in _marketableServise.SalesItems)
+                    {
+
+                        table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, a.QuantityItemsOfSold, item.DateOfSold.ToString("dd.MM.yyyy"));
+                    i++;
+               }
+}
+                table.Write(); 
+                
+            }
+            static void GetSalesByDateRange(DateTime startDate, DateTime endDate)
+            {
+                
+            }
+            
+            static void GetSalesByAmmountRange(double minAmmout, double maxAmmout)
+            {
+                
+            }
+
+            static void GetSalesByDate(DateTime date)
+            {
+                
+            }
+
+           
+            static void GetSalesByNumber(int numberOfsale)
+            {
+               
+            }
+
+           
+            
+
+            
+
+           
+
+            
+
+            
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

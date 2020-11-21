@@ -7,7 +7,9 @@ C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\M
 C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csprojAssemblyReference.cache
 C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.AssemblyInfoInputs.cache
 C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.AssemblyInfo.cs
-C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csproj.CoreCompileInputs.cache
 C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.dll
 C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.pdb
 C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.genruntimeconfig.cache
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\ConsoleTables.dll
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csproj.CopyComplete

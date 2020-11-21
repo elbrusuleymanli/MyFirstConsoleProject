@@ -1,56 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MyFirstProject.Infrastructure.Enum;
 using MyFirstProject.Infrastructure.Model;
 
 namespace MyFirstProject.Infrastructure.Interface
 {
-    class IMarketable
+        public interface IMarketable
     {
-       List<Sales> Sales  { get; set; }
-       List<Products> Products { get; set; }
-       void AddSale(string productName,double productQuantity,double productPrice)
-        {
+        List<Sales> Sales{ get; }
 
-        }
-       void GetSoldProduct()
-        {
+        List<Products> Products { get; }
 
+        void AddNewSale(Sales sales);
+        void RemoveSaleProduct();
+        string ShowAllSale();
+        double GetSaleByDateRange(DateTime startDate, DateTime endDate);
+        double GetSaleByDate(DateTime date);
+        string GetSaleByAmountRange(double minAmout, double maxAmout);
+        double GetSaleByNumber(int numberOfsale);
+        void AddNewProducts(Products product);
+        string FindProductForChangeByCode(Products productCode);
+        string ShowProductsByCategory(ProductCategory productCategory);
+        double GetProductByAmountRange(double minPrice, double maxPrice);
+        string SearchProductByName(string productName);
 
-        } 
-    
-        void GetTotalSoldProduct()
-        {
-
-        }
-        void GetProductByRangeDate(DateTime startDate,DateTime endDate)
-        {
-
-        }
-        void TotalSoldProductsByRangeDate(DateTime startDate, DateTime endDate)
-        {
-
-        }
-        void SoldProductsByDate(DateTime date)
-        {
-
-        }
-        
-        void GetSoldProductsByRangeAmmount(double minAmmount,double maxAmmount)
-        {
-
-        }
-        void RemoveSalesBySoldNumber(string numberOfSold)
-        {
-
-        }
-        void AddNewProduct()
-        {
-
-        }
+       
         
 
-    
-    
+
     }
 }

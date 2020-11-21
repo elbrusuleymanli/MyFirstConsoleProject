@@ -12,5 +12,5 @@ namespace MyFirstProject.Infrastructure.Enum
 
       Şirniyyat
 
-    };
+    }
 }
