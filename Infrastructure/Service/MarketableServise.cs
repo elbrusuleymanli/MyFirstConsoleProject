@@ -23,12 +23,13 @@ namespace MyFirstProject.Infrastructure.Service
 
         public MarketableServise()
         {    
+            
            
             _sales = new List<Sales>()
             {
                 new Sales
                 {
-                    NumberOfSale = "11AA",
+                    NumberOfSale = "22dd",
                     AmmountOfSale = 172,
                     DateOfSold = new DateTime(2020,10,01),
                    
@@ -40,29 +41,9 @@ namespace MyFirstProject.Infrastructure.Service
                     DateOfSold = new DateTime(2020,10,05),
 
                 },
-                  new Sales
-                {
-                    NumberOfSale = "11CC",
-                    AmmountOfSale = 120,
-                    DateOfSold = new DateTime(2020,10,08),
-
-                },
-                  new Sales
-                {
-                    NumberOfSale = "11DD",
-                    AmmountOfSale = 355,
-                    DateOfSold = new DateTime(2020,10,11),
-
-                },
-                 new Sales
-                {
-                    NumberOfSale = "11EE",
-                    AmmountOfSale = 32,
-                    DateOfSold = new DateTime(2020,10,21),
-
-                }
+                 
   };
-
+            
 
 
 
@@ -83,100 +64,78 @@ namespace MyFirstProject.Infrastructure.Service
                     Quantity = 205,
                     ProductCode ="253agfd",
 
-                },
-                new Products
-                {
-                    ProductName = "Milk",
-                    ProductPrice = 2.53,
-                    Quantity = 217,
-                    ProductCode ="153nocd",
-
-                },
-                new Products
-                {
-                    ProductName = "Juice",
-                    ProductPrice = 3.17,
-                    Quantity = 103,
-                    ProductCode ="161kjd",
-
-                },
-                new Products
-                {
-                    ProductName = "Cake",
-                    ProductPrice = 19,
-                    Quantity = 26,
-                    ProductCode ="453hgk",
-
                 }
 
 
             };
-
-            _salesItems = new List<SalesItem>();
-
-
-
-
+            
+       
+        
         }
+        
 
         public void AddNewSale(Sales sales)
         {
-            throw new NotImplementedException();
+           _sales.Add(sales);
         }
 
-        public void RemoveSaleProduct()
+        public void RemoveSaleProduct(string numberOfsale)
         {
-            throw new NotImplementedException();
+            _sales.RemoveAt(1);
         }
 
-        public string ShowAllSale()
+        public List <Sales> ShowAllSale()
         {
-          throw new NotImplementedException();
+          return  _sales;
         }
 
         public double GetSaleByDateRange(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+          return  _sales.Where(s => s.DateOfSold >= startDate && s.DateOfSold <= endDate).Sum(s => s.AmmountOfSale);
         }
 
-        public double GetSaleByDate(DateTime date)
+        public List<Sales> GetSaleByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            return (List<Sales>)_sales.Where(s => s.DateOfSold == date);
         }
 
-        public string GetSaleByAmountRange(double minAmout, double maxAmout)
+        public double GetSaleByAmountRange(double minAmout, double maxAmout)
         {
-            throw new NotImplementedException();
+          return  _sales.Where(s => s.AmmountOfSale >= minAmout && s.AmmountOfSale <= maxAmout).Sum(s => s.AmmountOfSale);
         }
 
-        public double GetSaleByNumber(int numberOfsale)
+        public double GetSaleByNumber(string numberOfsale)
         {
-            throw new NotImplementedException();
+         return   _sales.Where(s => s.NumberOfSale == numberOfsale).Sum(s => s.AmmountOfSale);
         }
 
         public void AddNewProducts(Products product)
         {
-            throw new NotImplementedException();
+            _products.Add(product);
         }
 
-        public string FindProductForChangeByCode(Products productCode)
+        public void FindProductForChangeByCode(string productCode)
         {
-            throw new NotImplementedException();
+            _products.Where(p => p.ProductCode == productCode);
         }
 
-        public string ShowProductsByCategory(ProductCategory productCategory)
+        public List<Products> ShowProductsByCategory(ProductCategory productCategory)
         {
-            throw new NotImplementedException();
+          return(List<Products>) _products.Where(p => p.ProductCategory == productCategory);
         }
 
-        public double GetProductByAmountRange(double minPrice, double maxPrice)
+        public List<Products> GetProductByPriceRange(double minPrice, double maxPrice)
         {
-            throw new NotImplementedException();
+            return (List<Products>) _products.Where(p => p.ProductPrice >= minPrice && p.ProductPrice <= maxPrice);
         }
 
-        public string SearchProductByName(string productName)
+        public List<Products> SearchProductByName(string productName)
         {
-            throw new NotImplementedException();
+            return (List<Products>)_products.Where(p => p.ProductName == productName);
         }
+
+       
+
+       
     }
 }

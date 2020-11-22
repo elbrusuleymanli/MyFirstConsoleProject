@@ -13,5 +13,6 @@ namespace MyFirstProject.Infrastructure.Model
         List <SalesItem> SalesItem { get; set; }
         public DateTime DateOfSold { get; set; }
 
+        
     }
 }

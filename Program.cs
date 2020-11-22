@@ -19,7 +19,9 @@ namespace MyFirstProject
               
         Console.OutputEncoding = Encoding.UTF8;
 
+            #region Menu
 
+               
             int select;
 
           do
@@ -91,12 +93,11 @@ namespace MyFirstProject
 
    }                      } while (select != 3) ;
 
-           
 
-            
-            
+            #endregion
+
+            #region FirstCase
             Console.WriteLine("==============================================================================");
-
 
             static void FirstCase()
             {
@@ -119,6 +120,11 @@ namespace MyFirstProject
 
                         Choose1 = Console.ReadLine();
                     }
+                    #endregion
+
+            #region switch FirstCase
+
+                    
 
                     switch (SecondSelect)
                     {
@@ -181,9 +187,12 @@ namespace MyFirstProject
 
                 } while (SecondSelect != 0);
             }
+            #endregion
 
+            #region FirstCaseMethod
 
-            static  void AddNewProduct(Products product)
+            
+            static void AddNewProduct(Products product)
             {
 
 
@@ -222,10 +231,12 @@ namespace MyFirstProject
 
             }
 
-          
-           
 
+            #endregion
 
+            #region SecondCase
+
+            
             static void SecondCase()
             {
                 int SecondSelect;
@@ -247,7 +258,11 @@ namespace MyFirstProject
 
                         Choose1 = Console.ReadLine();
                     }
+                    #endregion
 
+            #region switch SecondCase
+
+                    
                     switch (SecondSelect)
                     {
                         case 0:
@@ -257,7 +272,8 @@ namespace MyFirstProject
                         case 1:
 
                             Console.WriteLine("1. Yeni satış əlavə et");
-                             break;
+                            AddNewSales();
+                            break;
                         case 2:
 
                             Console.WriteLine("2. Satışdakı hansısa məhsulun geri qaytarılması(satışdan çıxarılması)");
@@ -308,14 +324,36 @@ namespace MyFirstProject
 
                 } while (SecondSelect != 0);
 
-
+                
 
             }
+            #endregion
+          
+            #region SecondCase Method
 
-
-            static void AddNewSales(Sales sales)
+            
+            static void AddNewSales()
             {
-               
+                Console.WriteLine("Yeni satış əlavə et");
+                Sales sale = new Sales();
+
+                Products products = new Products();
+
+                Console.WriteLine("Mehsulun adini daxil edin");
+                
+                products.ProductName = Console.ReadLine();
+
+                Console.WriteLine("Mehsulun qiymetini daxil edin");
+
+                products.ProductPrice =Convert.ToInt32( Console.ReadLine());
+
+                Console.WriteLine("Mehsulun nomresini qeyd edin");
+
+                products.ProductCode = Console.ReadLine();
+
+                Console.WriteLine("Mehsulun sayini daxil edin");
+                products.Quantity = Convert.ToInt32(Console.ReadLine());
+
             }
 
             static void RemoveSoldProduct(string productName, int productQuantity)
@@ -330,17 +368,16 @@ namespace MyFirstProject
             {
                 Console.WriteLine("-------------- CURRENT SALES --------------");
 
-                var table = new ConsoleTable("#","Number of Sale" ,"Amount","Quantity", "Date");
+                var table = new ConsoleTable("#","Number of Sale" ,"Amount", "Date");
                 
             int i = 1;
                 foreach (var item in _marketableServise.Sales)
                 {
-                    foreach (var a in _marketableServise.SalesItems)
-                    {
+                    
 
-                        table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, a.QuantityItemsOfSold, item.DateOfSold.ToString("dd.MM.yyyy"));
+                        table.AddRow(i, item.NumberOfSale, item.AmmountOfSale,  item.DateOfSold.ToString("dd.MM.yyyy"));
                     i++;
-               }
+               
 }
                 table.Write(); 
                 
@@ -366,18 +403,7 @@ namespace MyFirstProject
                
             }
 
-           
-            
-
-            
-
-           
-
-            
-
-            
-
-            
+            #endregion
 
 
 
@@ -403,7 +429,19 @@ namespace MyFirstProject
 
 
 
-        } }
+
+
+
+
+
+
+
+
+
+
+
+        }
+    }
     }
 
 
