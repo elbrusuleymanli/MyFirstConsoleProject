@@ -22,61 +22,23 @@ namespace MyFirstProject.Infrastructure.Service
         public List<SalesItem> SalesItems => _salesItems;
 
         public MarketableServise()
-        {    
-            
-           
-            _sales = new List<Sales>()
-            {
-                new Sales
-                {
-                    NumberOfSale = "22dd",
-                    AmmountOfSale = 172,
-                    DateOfSold = new DateTime(2020,10,01),
-                   
-                },
-                 new Sales
-                {
-                    NumberOfSale = "11BB",
-                    AmmountOfSale = 218,
-                    DateOfSold = new DateTime(2020,10,05),
+        {
+            _sales = new List<Sales>();
 
-                },
-                 
-  };
-            
-
-
-
-            _products = new List<Products>()
-            {
-                new Products
-                {
-                    ProductName = "Sugar",
-                    ProductPrice = 2.5,
-                    Quantity = 55,
-                    ProductCode ="1234abcd",
-                    
-                },
-                new Products
-                {
-                    ProductName = "Sweet",
-                    ProductPrice = 1.7,
-                    Quantity = 205,
-                    ProductCode ="253agfd",
-
-                }
-
-
-            };
-            
-       
-        
+            _products = new List<Products>();
         }
-        
+
+            
+
 
         public void AddNewSale(Sales sales)
         {
-           _sales.Add(sales);
+            Products products = new Products();
+            Sales sale = new Sales();
+            
+           
+            _sales.Add(sales);
+
         }
 
         public void RemoveSaleProduct(string numberOfsale)
@@ -86,22 +48,38 @@ namespace MyFirstProject.Infrastructure.Service
 
         public List <Sales> ShowAllSale()
         {
-          return  _sales;
+
+            Sales sale = new Sales();
+           
+            Products products = new Products();
+
+            
+
+            return  _sales;
         }
 
         public double GetSaleByDateRange(DateTime startDate, DateTime endDate)
         {
-          return  _sales.Where(s => s.DateOfSold >= startDate && s.DateOfSold <= endDate).Sum(s => s.AmmountOfSale);
+            Sales sale = new Sales();
+            
+            Products products = new Products();
+         
+            sale.AmmountOfSale = products.ProductPrice * products.Quantity;
+          
+            return  _sales.Where(s => s.DateOfSold >= startDate && s.DateOfSold <= endDate).Sum(s => s.AmmountOfSale);
         }
 
-        public List<Sales> GetSaleByDate(DateTime date)
+        public double GetSaleByDate(DateTime date)
         {
-            return (List<Sales>)_sales.Where(s => s.DateOfSold == date);
+            return _sales.Where(s => s.DateOfSold == date).Count();
         }
 
         public double GetSaleByAmountRange(double minAmout, double maxAmout)
         {
-          return  _sales.Where(s => s.AmmountOfSale >= minAmout && s.AmmountOfSale <= maxAmout).Sum(s => s.AmmountOfSale);
+            Sales sale = new Sales();
+            Products products = new Products();
+            sale.AmmountOfSale = products.ProductPrice * products.Quantity;
+            return _sales.Where(a => a.AmmountOfSale >= minAmout && a.AmmountOfSale <= maxAmout).Sum(s => s.AmmountOfSale);
         }
 
         public double GetSaleByNumber(string numberOfsale)
@@ -134,8 +112,9 @@ namespace MyFirstProject.Infrastructure.Service
             return (List<Products>)_products.Where(p => p.ProductName == productName);
         }
 
-       
-
-       
+        public List<Products> ShowAllProduct()
+        {
+            return _products;
+        }
     }
 }

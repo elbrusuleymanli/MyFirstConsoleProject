@@ -15,8 +15,10 @@ namespace MyFirstProject.Infrastructure.Interface
         void AddNewSale(Sales sales);
         void RemoveSaleProduct(string numberOfsale);
         List<Sales>ShowAllSale();
+
+        List<Products> ShowAllProduct();
         double GetSaleByDateRange(DateTime startDate, DateTime endDate);
-        List<Sales> GetSaleByDate(DateTime date);
+        double GetSaleByDate(DateTime date);
         double GetSaleByAmountRange(double minAmout, double maxAmout);
         double GetSaleByNumber(string numberOfsale);
         void AddNewProducts(Products product);

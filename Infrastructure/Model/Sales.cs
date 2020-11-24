@@ -12,7 +12,8 @@ namespace MyFirstProject.Infrastructure.Model
         public double AmmountOfSale { get; set; }
         List <SalesItem> SalesItem { get; set; }
         public DateTime DateOfSold { get; set; }
+        public int saleQuantity { get; set; }
 
-        
+
     }
 }
