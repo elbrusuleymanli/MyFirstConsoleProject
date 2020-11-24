@@ -26,7 +26,12 @@ namespace MyFirstProject.Infrastructure.Service
             _sales = new List<Sales>();
 
             _products = new List<Products>();
+
+
+
+
         }
+    
 
             
 
@@ -41,9 +46,9 @@ namespace MyFirstProject.Infrastructure.Service
 
         }
 
-        public void RemoveSaleProduct(string numberOfsale)
+        public void RemoveSaleProduct(int index)
         {
-            _sales.RemoveAt(1);
+            _sales.RemoveAt(index);
         }
 
         public List <Sales> ShowAllSale()
@@ -53,6 +58,7 @@ namespace MyFirstProject.Infrastructure.Service
            
             Products products = new Products();
 
+            
             
 
             return  _sales;
@@ -92,29 +98,34 @@ namespace MyFirstProject.Infrastructure.Service
             _products.Add(product);
         }
 
-        public void FindProductForChangeByCode(string productCode)
+        public void FindProductForChangeByCode(Products product)
         {
-            _products.Where(p => p.ProductCode == productCode);
+            _products.Add(product);
         }
 
         public List<Products> ShowProductsByCategory(ProductCategory productCategory)
         {
-          return(List<Products>) _products.Where(p => p.ProductCategory == productCategory);
+          return _products;
         }
 
         public List<Products> GetProductByPriceRange(double minPrice, double maxPrice)
         {
-            return (List<Products>) _products.Where(p => p.ProductPrice >= minPrice && p.ProductPrice <= maxPrice);
+            return _products;
         }
 
         public List<Products> SearchProductByName(string productName)
         {
-            return (List<Products>)_products.Where(p => p.ProductName == productName);
+            return _products;
         }
 
         public List<Products> ShowAllProduct()
         {
             return _products;
+        }
+
+        public void RemoveSale(int index)
+        {
+            _sales.RemoveAt(index);
         }
     }
 }

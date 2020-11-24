@@ -150,7 +150,7 @@ namespace MyFirstProject
                         case 3:
 
                             Console.WriteLine("3. Məhsulu sil ");
-
+                        RemoveProductByCode();
                             break;
 
                         case 4:
@@ -161,17 +161,18 @@ namespace MyFirstProject
 
                         case 5:
                             Console.WriteLine("5. Kateqoriyasına görə məhsulları göstər ");
-
+                        ShowProductsByCategory();
                             break;
 
                         case 6:
 
                             Console.WriteLine("6. Qiymət aralığına görə məhsullari göster");
-                    
+                            GetProductsByPriceRange();
                             break;
 
                         case 7:
                             Console.WriteLine("7. Məhsullar arasında ada görə axtarış et");
+                        SearchProductByName();
                             break;
 
                        default:
@@ -246,47 +247,38 @@ namespace MyFirstProject
                 }
                 products.Quantity = quantity;
 
-                
-                Console.WriteLine("Mehsulun kategoriyasini yazin");
+                ProductCategory category;
+               
+                Console.WriteLine("Mehsulun kategoriyasini secin");
 
-                Console.WriteLine("İçkilər");
-                Console.WriteLine("Ərzaq");
-                Console.WriteLine("Şirniyyat");
-                
-                string inputName = Console.ReadLine();
+                Console.WriteLine("1. İçkilər");
+                Console.WriteLine("2. Ərzaq");
+                Console.WriteLine("3. Şirniyyat");
 
-            if(inputName== "İçkilər")
+                category = (ProductCategory)int.Parse(Console.ReadLine());
+               
+            
+                switch(category)
             {
-                products.ProductCategory = (ProductCategory)Enum.Parse(typeof(ProductCategory) ,"İçkilər");
-                Console.WriteLine("-------------- Yeni mehsul əlavə edildi --------------");
+                
+                case (ProductCategory)1:
+                  products.ProductCategory = ProductCategory.İçkilər;
+                    break;
+
+                case (ProductCategory)2:
+                    products.ProductCategory = ProductCategory.Ərzaq;
+                    break;
+
+                case (ProductCategory)3:
+                    products.ProductCategory = ProductCategory.Şirniyyat;
+                    break;
+
 
             }
-                else if (inputName == "Ərzaq")
-            {
-
-              
-                Console.WriteLine("-------------- Yeni mehsul əlavə edildi --------------");
-            }
-            else if (inputName == "Şirniyyat")
-            {
-
-              
-           
-          
-            
-                        Console.WriteLine("-------------- Yeni mehsul əlavə edildi --------------");
- }
-          
-            
-            
-            else
-            {
-                Console.WriteLine("Kateqoriyani sehv yazdiniz ve mehsul kateqoriyasiz elave olundu");
-              
-               }  
-              
                
                 _marketableServise.AddNewProducts(products);
+
+            Console.WriteLine("mehsul elave edildi");
 
             }
 
@@ -294,29 +286,96 @@ namespace MyFirstProject
         static void EditCurrentProduct()
         {
             Products products = new Products();
+
+            Sales sale = new Sales();
            
-            Console.WriteLine("mehsuliu kodunu daxil edin");
+            SalesItem salesItem = new SalesItem();
+            
+            List<Products>products1 = new List<Products>();
+            
+            Console.WriteLine("axtarish ucun mehsulun kodunu daxil edin");
             
             string code = Console.ReadLine();
             
-            if (products.ProductCode != null) {
-            
-            foreach (var item in products.ProductCode)
-            {
-                if (products.ProductCode==code)
+                if (products1.Exists(p => p.ProductCode == code))
                 {
-                    Console.WriteLine(products.ProductName);
+                    Console.WriteLine("mehsulun yeni qiymetini daxil edin");
+                   
+                    double price = double.Parse(Console.ReadLine());
+
+                products.ProductPrice = price;
+
+                sale.AmmountOfSale = +products.ProductPrice;
+
+                Console.WriteLine("mehsulun yeni adini daxil edin");
+
+                string name = Console.ReadLine();
+
+                products.ProductName = name;
+
+                Console.WriteLine("mehsulun yeni kateqoriyasini secin edin");
+               
+                Console.WriteLine("1. İçkilər");
+                Console.WriteLine("2. Ərzaq");
+                Console.WriteLine("3. Şirniyyat");
+
+                ProductCategory category = (ProductCategory)int.Parse(Console.ReadLine());
+                if (category==ProductCategory.İçkilər)
+                {
+                    category = ProductCategory.İçkilər;
                 }
+                 else if  (category==ProductCategory.Ərzaq) {
+                    category = ProductCategory.Ərzaq;
+
+                }
+                else if (category == ProductCategory.Şirniyyat)
+                {
+                    category = ProductCategory.Şirniyyat;
+
+                }
+                else
+                {
+                    Console.WriteLine("sehv kateqoriya secdiniz");
+                }
+                Console.WriteLine("mehsulun yeni sayini  daxil edin");
+               
+                int count = int.Parse(Console.ReadLine());
+
+                products.Quantity = count;
+                salesItem.QuantityItemsOfSold = +products.Quantity;
+
+                Console.WriteLine("mehsulun yeni kodunu daxil edin");
+
+                string cod = Console.ReadLine();
+
+                products.ProductCode = cod;
+                Console.WriteLine("mehsul elave olundu");
+            }
+            else
+            {
+
+                Console.WriteLine("daxil etdiyiniz kodla mehsul yoxdur");
             }
 
- }
+
+            _marketableServise.FindProductForChangeByCode(products);
+
         }
-
-
-
-        static void RemoveProduct()
+            
+           
+            
+        static void RemoveProductByCode()
         {
+            Products prod = new Products();
+           
+            List<Products> prodRemove = new List<Products>();
 
+
+            Console.WriteLine("silinecek mehsulun kodunu daxil edin");
+           
+            string code = Console.ReadLine();
+
+            prodRemove.FindAll(p => p.ProductCode == code).Remove(prod);
         }
 
 
@@ -352,12 +411,53 @@ namespace MyFirstProject
 
         static void ShowProductsByCategory()
         {
+            Products products = new Products();
+            ProductCategory category;
+
+            Console.WriteLine("istediyiniz mehsula gore kateqoriyani secin");
+
+            Console.WriteLine("1. İçkilər");
+            Console.WriteLine("2. Ərzaq");
+            Console.WriteLine("3. Şirniyyat");
+
+            category = (ProductCategory)int.Parse(Console.ReadLine());
+
+            if (category==(ProductCategory)1)
+            {
+                Console.WriteLine(products.ProductName + "" + products.ProductCode + "" + products.ProductPrice + "" + products.Quantity + "" + products.ProductCategory);
+            }
+            else if (category==(ProductCategory)2)
+            {
+                Console.WriteLine(products.ProductName + "" + products.ProductCode + "" + products.ProductPrice + "" + products.Quantity + "" + products.ProductCategory);
+            }
+
+            else if (category == (ProductCategory)3)
+            {
+                Console.WriteLine(products.ProductName + "" + products.ProductCode + "" + products.ProductPrice + "" + products.Quantity + "" + products.ProductCategory);
+            }
 
 
+            //switch (category)
+            //{
+
+            //    case (ProductCategory)1:
+
+            //        Console.WriteLine(products.ProductName + "" + products.ProductCode + "" + products.ProductPrice + "" + products.Quantity + "" + products.ProductCategory);
+            //        break;
+
+            //    case (ProductCategory)2:
+            //        Console.WriteLine(products.ProductName + "" + products.ProductCode + "" + products.ProductPrice + "" + products.Quantity + "" + products.ProductCategory); break;
+
+            //    case (ProductCategory)3:
+            //        Console.WriteLine(products.ProductName + "" + products.ProductCode + "" + products.ProductPrice + "" + products.Quantity + "" + products.ProductCategory); break;
+
+            //    default:
+            //        Console.WriteLine("duz kateqoriya secmediniz");
+            //        break;
+            //}
 
 
-
-
+            _marketableServise.ShowProductsByCategory(category);
 
         }
 
@@ -365,8 +465,32 @@ namespace MyFirstProject
 
         static void GetProductsByPriceRange()
         {
+            Products products = new Products();
+            
+            List<Products> price = new List<Products>();
+            
+            Console.WriteLine("gostermek istediyiniz mehsullarin araliq qiymetlerini daxil edin");
 
-        }
+            Console.WriteLine("minimum meblegi daxil edin");
+            double  Minprice = Convert.ToDouble (Console.ReadLine());
+            Console.WriteLine("maximum meblegi daxil edin");
+            double Maxprice = Convert.ToDouble(Console.ReadLine());
+
+            foreach (var item in price)
+            {
+                if (item.ProductPrice>=Minprice&&item.ProductPrice<=Maxprice)
+                {
+                    Console.WriteLine(item.ProductCode + " "+ item.ProductName+" "+ item.ProductCategory+" "+item.ProductPrice+" "+item.Quantity);
+                }
+                else
+                {
+
+                    Console.WriteLine("bu qiymet araliginda mehsul yoxdur");
+                }
+                   
+            }
+            _marketableServise.GetProductByPriceRange(Minprice,Maxprice);
+        } 
 
 
 
@@ -374,6 +498,21 @@ namespace MyFirstProject
         static void SearchProductByName()
         {
 
+            Products products1 = new Products();
+            List<Products> products = new List<Products>();
+           
+            Console.WriteLine("mehsulun adini daxil edin");
+
+            string name = Console.ReadLine();
+
+            products.FindAll(p => p.ProductName == name);
+            Console.WriteLine(products1.ProductName+""+products1.ProductCategory+""+products1.ProductCode+""+products1.ProductPrice+""+products1.Quantity);
+
+           _marketableServise.SearchProductByName(name);
+
+            products.FindAll(p => p.ProductName != name);
+
+            Console.WriteLine("bele adla mehsul movcud deyil ");
         }
 
 
@@ -418,12 +557,13 @@ namespace MyFirstProject
                             case 2:
 
                                 Console.WriteLine("2. Satışdakı hansısa məhsulun geri qaytarılması(satışdan çıxarılması)");
-                                break;
+                        RemoveSoldProduct();
+                        break;
 
                             case 3:
 
                                 Console.WriteLine("3. Satışın silinməsi ");
-
+                        RemoveSold();
                                 break;
 
                             case 4:
@@ -455,7 +595,8 @@ namespace MyFirstProject
 
                             case 8:
                                 Console.WriteLine("8. Verilmiş nömrəyə əsasən həmin nömrəli satışın məlumatlarının göstərilməsi");
-                                break;
+                        GetSalesByNumber();
+                        break;
 
 
                             default:
@@ -470,7 +611,9 @@ namespace MyFirstProject
 
 
                         }
-                    } while (SSelect != 0);
+                 
+            
+            } while (SSelect != 0);
 
                 }
 
@@ -550,12 +693,18 @@ namespace MyFirstProject
                 {
                     SalesItem salesItem = new SalesItem();
 
+                    List<Products> item = new List<Products>();
+
+
                     Products products1 = new Products();
 
                     Console.WriteLine("------------satisin legv olunmasi----------------");
+                   
                     Console.WriteLine("Legv etmek ucun mehsulun adini daxil edin");
-                    string nameinput = Console.ReadLine();
-                    Console.WriteLine("Legv etmek ucun mehsulun sayini daxil edin");
+                    
+                   string nameinput = Console.ReadLine();
+                   
+                   Console.WriteLine("Legv etmek ucun mehsulun sayini daxil edin");
 
                     string countIn = Console.ReadLine();
 
@@ -567,13 +716,16 @@ namespace MyFirstProject
 
                         countIn = Console.ReadLine();
                     }
-                    if (nameinput==products1.ProductName)
-                    {
-                         
-                    }
-                    else { 
-                        Console.WriteLine("bu adla mehsul yoxdur");
-                    }
+
+            item.FindAll(i => i.ProductName == nameinput && i.Quantity == count);
+            
+            
+            _marketableServise.RemoveSaleProduct(count - 1);
+            
+            
+            
+            
+            
                 }
        
 
@@ -582,7 +734,39 @@ namespace MyFirstProject
                 static void RemoveSold()
                 {
 
-                }
+            Console.WriteLine("satisin nomresini daxil edin");
+            
+           
+            string number = Console.ReadLine();
+           
+            int index;
+
+
+            while (!int.TryParse(number, out index))
+            {
+                Console.WriteLine("reqem daxil etmelisiniz");
+
+                number = Console.ReadLine();
+            }
+            try
+            {
+                _marketableServise.RemoveSale(index - 1);
+            
+            Console.WriteLine("satis silindi");
+            }
+            
+            catch (Exception)
+            {
+
+                Console.WriteLine("bele bir nomreli satis yoxdur "); 
+            }  
+
+            
+           
+           
+
+
+        }   
             
 
           
@@ -619,56 +803,43 @@ namespace MyFirstProject
       
 
 }
-                static void GetSalesByDateRange()
+          
+        
+        
+             static void GetSalesByDateRange()
 
                 {
 
                     Console.WriteLine("-------------- Tarix aralığında satışların toplamını --------------");
 
-                    #region Start Date
+                    
 
-                    Console.WriteLine("Başlanğıc tarixi daxil edin (gun.ay.il):");
+                    Console.WriteLine(" tarixi daxil edin (gun.ay.il):");
 
-                    string startDateInput = Console.ReadLine();
+                    string DateInput = Console.ReadLine();
 
-                    DateTime startDate;
+                    DateTime Date;
 
-                    while (!DateTime.TryParse(startDateInput, out startDate))
+                    while (!DateTime.TryParse(DateInput, out Date))
                     {
                         Console.WriteLine("Tarixi daxil etməlisiniz!");
 
-                        startDateInput = Console.ReadLine();
+                       DateInput = Console.ReadLine();
                     }
-                    #endregion;
+                   
 
-                    #region End Date
-
-                    Console.WriteLine("Bitiş tarixi daxil edin (gun.ay.il):");
-
-                    string endDateInput = Console.ReadLine();
-
-                    DateTime endDate;
-
-                    while (!DateTime.TryParse(endDateInput, out endDate))
-                    {
-                        Console.WriteLine("Tarixi daxil etməlisiniz!");
-
-                        endDateInput = Console.ReadLine();
-
-                        #endregion
-
-                        double result = _marketableServise.GetSaleByDateRange(startDate, endDate);
+                        double result = _marketableServise.GetSaleByDate(Date);
 
                         if (result != 0)
                         {
-                            Console.WriteLine("-------------- {0} - {1} aralığına görə satış toplamı {2} azndir --------------", startDate.ToString("dd.MM.yyyy"), endDate.ToString("dd.MM.yyyy"), result.ToString("#.##"));
+                            Console.WriteLine("-------------- {0} - {1} aralığına görə satış toplamı {2} azndir --------------", Date.ToString("dd.MM.yyyy"),  result.ToString("#.##"));
                         }
                         else
                         {
-                            Console.WriteLine("-------------- {0} - {1} aralığına görə satış yoxdur --------------", startDate.ToString("dd.MM.yyyy"), endDate.ToString("dd.MM.yyyy"));
+                            Console.WriteLine("-------------- {0} - {1} aralığına görə satış yoxdur --------------", Date.ToString("dd.MM.yyyy"));
                         }
                     }
-                }
+                
 
         
 
@@ -763,16 +934,18 @@ namespace MyFirstProject
            static void GetSalesByNumber()
             {
             Sales sale = new Sales();
+
+            List<Sales> sales = new List<Sales>();
            
             Console.WriteLine("satis nomresini daxil edin");
            
             string no = Console.ReadLine();
-
-            if (no==sale.NumberOfSale)
-            {
-
-            }
-
+ 
+            sales.FindAll(s => s.NumberOfSale == no);
+           
+            Console.WriteLine(sale.AmmountOfSale);
+            
+            _marketableServise.GetSaleByNumber(no);
             }
 
 
