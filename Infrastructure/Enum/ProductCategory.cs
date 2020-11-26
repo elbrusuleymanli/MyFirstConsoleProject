@@ -6,11 +6,11 @@ namespace MyFirstProject.Infrastructure.Enum
 {
    public enum ProductCategory
     {
-      Ərzaq,
+      Food,
 
-      İçkilər,
+      Beverages,
 
-      Şirniyyat
+      Sweets
 
     }
 }

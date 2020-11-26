@@ -12,9 +12,9 @@ namespace MyFirstProject.Infrastructure.Interface
 
         List<Products> Products { get; }
 
-        void AddNewSale(Sales sales);
-        void RemoveSaleProduct(int index);
-        List<Sales>ShowAllSale();
+        void AddNewSale(string code,int count);
+        void RemoveSaleProduct(string code);
+        void ShowAllSale();
 
         List<Products> ShowAllProduct();
         double GetSaleByDateRange(DateTime startDate, DateTime endDate);
@@ -22,12 +22,14 @@ namespace MyFirstProject.Infrastructure.Interface
         double GetSaleByAmountRange(double minAmout, double maxAmout);
         double GetSaleByNumber(string numberOfsale);
         void AddNewProducts(Products product);
-        void FindProductForChangeByCode(Products product);
+        List<Products> FindProductForChangeByCode(string code);
         List<Products> ShowProductsByCategory(ProductCategory productCategory);
         List<Products> GetProductByPriceRange(double minPrice, double maxPrice);
         List<Products> SearchProductByName(string productName);
 
-        public void RemoveSale(int index);
+        public void RemoveSale(string numberofSale);
+
+
 
        
         
