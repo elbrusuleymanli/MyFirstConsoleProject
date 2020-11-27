@@ -33,21 +33,12 @@ namespace MyFirstProject.Infrastructure.Service
                     ProductName = "onion",
                     ProductCode = "123",
                     ProductCategory = ProductCategory.Food,
-                    ProductPrice = 2,
+                    ProductPrice = 20,
                     Quantity = 5
 
 
                 },
-                     new Products
-                {
-                    ProductName = "water",
-                    ProductCode = "12",
-                    ProductCategory = ProductCategory.Beverages,
-                    ProductPrice = 2,
-                    Quantity = 5
-
-                     }
-                };
+                                   };
 
 
 
@@ -78,25 +69,26 @@ namespace MyFirstProject.Infrastructure.Service
 
         public void RemoveSaleProduct(string code)
         {
-            try
-            {
+            Products products = new Products();
+          
             var resultlist = _products.ToList();
            
-            var single=resultlist.Find(r => r.ProductCode == code);
-           
-             _products.Remove(single);
-               
-                Console.WriteLine("qeyd etdiyiniz mehsul silindi");
-            }
+             
+                Console.WriteLine(" By selected product has been deleted");
+
             
-            catch (Exception)
-            {
+            var delete=resultlist.Find(r => r.ProductCode == code);
+           
+            
+             _products.Remove(delete);
 
-                Console.WriteLine("bele bir mehsul yoxdur");
-            }
 
-          
+            if (products.ProductCode != code) throw new Exception("Has not found any product by this number for remove");
         }
+
+         
+          
+        
 
         public void ShowAllSale()
         {
@@ -167,42 +159,9 @@ namespace MyFirstProject.Infrastructure.Service
 
         public List<Products> GetProductByPriceRange(double minPrice, double maxPrice)
         {
-            Products products = new Products();
-            
-            if (minPrice>maxPrice)
-                {
-                
-                Console.WriteLine("Minimal mebleg maxsimal meblegden boyukdur,yeniden cehd edin");
-                }
-           
-            try
-            {
-                var show = _products.ToList();
 
-                var list = show.FindAll(p => p.ProductPrice >= minPrice && p.ProductPrice <= maxPrice);
-               
 
-                foreach (var item in list)
-                {
-                    var table = new ConsoleTable("#", "Name", "Price", "Category", "Quantuty", "Code");
-
-                    int i = 1;
-                    i++;
-                    table.AddRow(i, item.ProductName, item.ProductPrice, item.ProductCategory, item.Quantity, item.ProductCode);
-
-                    table.Write();
-
-                }
-            }
-          
-            catch (Exception)
-            {
-
-                Console.WriteLine("qeyd etdiyiniz mebleg araliginda mehsul yoxdur");
-            }
-            
-           
-            return _products;
+            return _products.FindAll(p => p.ProductPrice >= minPrice && p.ProductPrice <= maxPrice).ToList();
         }
 
         public List<Products> SearchProductByName(string text)
@@ -239,22 +198,15 @@ namespace MyFirstProject.Infrastructure.Service
 
         public void RemoveSale(string number)
         {
-            try
-            {
+            
                 Sales sales = new Sales();
               
               var sale =_sales.Find(s => s.NumberOfSale == number);
                 
                 _sales.Remove(sale);
 
-                Console.WriteLine("qeyd etdiyiniz satis silindi");
-            }
-
-            catch (Exception)
-            {
-
-                Console.WriteLine("bele bir mehsul yoxdur");
-            }
+                Console.WriteLine("Has been deleted");
+           
 
             
         }
@@ -271,8 +223,6 @@ namespace MyFirstProject.Infrastructure.Service
             
             var saleItem = new SalesItem();
             
-            var Code = code;
-            
             saleItem.QuantityItemsOfSold = count;
             
             saleItem.ProductItemsOfSold = product;
@@ -280,8 +230,10 @@ namespace MyFirstProject.Infrastructure.Service
             saleItem.QuantityItemsOfSold = SalesItems.Count + 1;
             
             SalesItems.Add(saleItem);
-            
+
             amount += count * saleItem.ProductItemsOfSold.ProductPrice;
+            
+            count = saleItem.QuantityItemsOfSold;
             
             var saleNo = _sales.Count + 1;
             
@@ -329,10 +281,7 @@ namespace MyFirstProject.Infrastructure.Service
 
                 var remove = _products.Remove(sale);
 
-
-                Console.WriteLine(remove); 
-
-                Console.WriteLine("qeyd etdiyiniz satis silindi");
+                Console.WriteLine("Has been deleted");
             }
 
             catch (Exception)
