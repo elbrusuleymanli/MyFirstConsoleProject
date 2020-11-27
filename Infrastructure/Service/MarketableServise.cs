@@ -22,53 +22,15 @@ namespace MyFirstProject.Infrastructure.Service
 
         public List<SalesItem> SalesItems => _salesItems;
 
-     
+
         public MarketableServise()
         {
-           
-            _sales = new List<Sales>()
-            {
-                new Sales
-                {
-                    AmmountOfSale = 225,
-                    saleQuantity = 42,
-                    DateOfSold= DateTime.Now,
-                    NumberOfSale = "15",
-                    SalesItem=_salesItems,
-
-
-
-                   _salesItems = new List<SalesItem>()
-            {
-                new SalesItem
-                {
-                    QuantityItemsOfSold=12,
-                    NumberOfItem="054b",
-                    ProductItemsOfSold=new Products()
-                    {
-                        ProductName = "tort",
-                        ProductCode = "055",
-                        ProductCategory=ProductCategory.Sweets,
-                        ProductPrice = 12.7,
-                        Quantity = 7,
-
-                    }
-
-
-                }
-                   }
-
-        }
-
-            };
-
-
             _products = new List<Products>()
             {
 
-                new Products
+               new Products
                 {
-                    ProductName = "sogan",
+                    ProductName = "onion",
                     ProductCode = "123",
                     ProductCategory = ProductCategory.Food,
                     ProductPrice = 2,
@@ -78,27 +40,40 @@ namespace MyFirstProject.Infrastructure.Service
                 },
                      new Products
                 {
-                    ProductName = "su",
+                    ProductName = "water",
                     ProductCode = "12",
                     ProductCategory = ProductCategory.Beverages,
                     ProductPrice = 2,
                     Quantity = 5
 
+                     }
+                };
+
+
+
+            _salesItems = new List<SalesItem>()
+            {
+                    new SalesItem
+                    {
+                    QuantityItemsOfSold =1,
+                    ProductItemsOfSold=_products.Find(p=>p.ProductCode=="123"),
+                      NumberOfItem ="1",
+                    }
+                    };
+
+            _sales = new List<Sales>()
+            {
+                new Sales
+                {
+                    AmmountOfSale = 225,
+                    DateOfSold = new DateTime (2020,10,01),
+                    NumberOfSale = "15",
+                   SalesItem=_salesItems.FindAll(s=>s.QuantityItemsOfSold==1)
 
                 }
-                                
-           };
-
-
-
-
-            
-              
-            
-          
+            };
 
         }
-               
 
 
         public void RemoveSaleProduct(string code)
@@ -107,7 +82,7 @@ namespace MyFirstProject.Infrastructure.Service
             {
             var resultlist = _products.ToList();
            
-            var single=resultlist.Single(r => r.ProductCode == code);
+            var single=resultlist.Find(r => r.ProductCode == code);
            
              _products.Remove(single);
                
@@ -131,46 +106,26 @@ namespace MyFirstProject.Infrastructure.Service
 
         }
 
-        public double GetSaleByDateRange(DateTime startDate, DateTime endDate)
+        public List<Sales> GetSaleByDateRange(DateTime startDate, DateTime endDate)
         {
-            Sales sale = new Sales();
-            
-            Products products = new Products();
-         
-            sale.AmmountOfSale = products.ProductPrice * products.Quantity;
-        
-            return  _sales.FindAll(s => s.DateOfSold >= startDate && s.DateOfSold <= endDate).Sum(s => s.AmmountOfSale);
-}
-           
+            return  _sales.Where(p => p.DateOfSold >= startDate && p.DateOfSold <= endDate).ToList();
 
-        public double GetSaleByDate(DateTime date)
+        }
+        public List<Sales> GetSaleByDate(DateTime date)
         {
-            return _sales.Where(s => s.DateOfSold == date).Count();
+            return _sales.Where(s => s.DateOfSold == date).ToList();
         }
 
-        public double GetSaleByAmountRange(double minAmout, double maxAmout)
+        public List<Sales> GetSaleByAmountRange(double minAmout, double maxAmout)
         {
-                var list = _products.ToList();
-                var show = list.FindAll(p => p.ProductPrice>=minAmout&&p.ProductPrice<=maxAmout);
 
-              foreach (var item in show)
-            {
-                Console.WriteLine("--------- " + item.ProductName);
-                Console.WriteLine("--------- " + item.ProductPrice);
-                Console.WriteLine("--------- " + item.ProductCategory);
-                Console.WriteLine("--------- " + item.Quantity);
-            }
+            return _sales.Where(p => p.AmmountOfSale >= minAmout && p.AmmountOfSale <= maxAmout).ToList();
 
-
-            Sales sale = new Sales();
-            Products products = new Products();
-            sale.AmmountOfSale = products.ProductPrice * products.Quantity;
-            return _sales.Where(a => a.AmmountOfSale >= minAmout && a.AmmountOfSale <= maxAmout).Sum(s => s.AmmountOfSale);
         }
 
-        public double GetSaleByNumber(string numberOfsale)
+        public List<Sales> GetSaleByNumber(string numberOfsale)
         {
-         return   _sales.Where(s => s.NumberOfSale == numberOfsale).Sum(s => s.AmmountOfSale);
+         return   _sales.Where(s => s.NumberOfSale == numberOfsale).ToList();
         }
 
         public void AddNewProducts(Products product)
@@ -282,17 +237,15 @@ namespace MyFirstProject.Infrastructure.Service
             return _products;
         }
 
-        public void RemoveSale(string NumberofSale)
+        public void RemoveSale(string number)
         {
             try
             {
-                var resultlist = _sales.ToList();
-
-
-
-                var single = resultlist.Single(r => r.NumberOfSale == NumberofSale);
-
-                _sales.Remove(single);
+                Sales sales = new Sales();
+              
+              var sale =_sales.Find(s => s.NumberOfSale == number);
+                
+                _sales.Remove(sale);
 
                 Console.WriteLine("qeyd etdiyiniz satis silindi");
             }
@@ -310,23 +263,86 @@ namespace MyFirstProject.Infrastructure.Service
         {
             List<Products> products = new List<Products>();
           
-           
-            
             List<SalesItem> items = new List<SalesItem>();
             
-            Products product = products.Find(p => p.ProductCode == code);
+            double amount = 0;
+           
+            var product = _products.Where(p => p.ProductCode == code).FirstOrDefault();
             
-            SalesItem salesItem = new SalesItem();
+            var saleItem = new SalesItem();
             
-            salesItem.NumberOfItem = code;
+            var Code = code;
             
-            salesItem.QuantityItemsOfSold = count;
+            saleItem.QuantityItemsOfSold = count;
             
-            salesItem.ProductItemsOfSold = product;
+            saleItem.ProductItemsOfSold = product;
+            
+            saleItem.QuantityItemsOfSold = SalesItems.Count + 1;
+            
+            SalesItems.Add(saleItem);
+            
+            amount += count * saleItem.ProductItemsOfSold.ProductPrice;
+            
+            var saleNo = _sales.Count + 1;
+            
+            var saleDate = DateTime.Now;
+            
+            var sale = new Sales();
+            
+            sale.NumberOfSale = "123";
+            
+            sale.AmmountOfSale = amount;
+            
+            sale.DateOfSold = saleDate;
+            
+            sale.SalesItem = items;
+            
+            _sales.Add(sale);
+
             
             
-            SalesItems.Add(salesItem);
-            List<Sales> sale = new List<Sales>();
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+         
         }
+
+        public void RemoveSold(string code, int count)
+        {
+            try
+            {
+                Products products= new Products();
+
+                var sale = _products.Find(s => s.ProductCode == code&&s.Quantity==count);
+
+                var remove = _products.Remove(sale);
+
+
+                Console.WriteLine(remove); 
+
+                Console.WriteLine("qeyd etdiyiniz satis silindi");
+            }
+
+            catch (Exception)
+            {
+
+                Console.WriteLine("bele bir mehsul yoxdur");
+            }
+
+
+        }
+
     }
 }
