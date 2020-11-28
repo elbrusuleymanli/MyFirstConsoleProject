@@ -5,6 +5,7 @@ using MyFirstProject.Infrastructure.Model;
 using MyFirstProject.Infrastructure.Service;
 using ConsoleTables;
 using System.Collections.Generic;
+using MyFirstProject.Infrastructure.Exceptions;
 
 namespace MyFirstProject
 {
@@ -529,7 +530,7 @@ namespace MyFirstProject
             }
 
 
-            if (Minprice > Maxprice) throw new Exception("Minimal value too much than maximal value");
+            if (Minprice > Maxprice) throw new NotOrdinaryException ("Minimal value too much than maximal value");
 
 
             var list = _marketableServise.GetProductByPriceRange(Minprice, Maxprice);
@@ -554,22 +555,22 @@ namespace MyFirstProject
         // Method has can not found exceptions 
         static void SearchProductByName()
             {
-
+            Products products = new Products();
                 Console.WriteLine("Enter text");
-                try
+              string text = Console.ReadLine();
+            try
                 {
-
-                    string text = Console.ReadLine();
 
                     var list = _marketableServise.SearchProductByName(text);
 
                 }
-                catch (KeyNotFoundException e)
+                catch (NotFoundExp)
                 {
-
+                   
                     Console.WriteLine("Can not found");
+                
                 }
-                    
+            
             }
         // Summary:
         // Created switch method for choise second option 
@@ -716,64 +717,90 @@ namespace MyFirstProject
 
             {
 
-                Console.WriteLine("------------satisin legv olunmasi----------------");
 
-                Console.WriteLine("Legv etmek ucun mehsulun kodunu daxil edin");
+            Console.WriteLine("Enter sold product code");
 
-                string nameinput = Console.ReadLine();
+            string prodCode = Console.ReadLine();
 
-                Console.WriteLine("Legv etmek ucun mehsulun sayini daxil edin");
+            Console.WriteLine("Enter quantity of this product");
 
-                string countIn = Console.ReadLine();
+            int count;
 
-                int count;
+            string check = Console.ReadLine();
 
-                while (!int.TryParse(countIn, out count))
-                {
-                    Console.WriteLine("reqem daxil edin");
-
-                    countIn = Console.ReadLine();
-                }
-
-
-
-
-
-                _marketableServise.RemoveSold(nameinput, count);
-
-
-
-
-
-            }
-
-            static void RemoveSold()
+            while (!int.TryParse(check,out count))
             {
-
-                  Console.WriteLine("Enter sale number");
-
-
-                  string number = Console.ReadLine();
-
-                  Console.WriteLine("Enter sale count");
+                Console.WriteLine("You should enter a digit");
                 
-                  string countInput = Console.ReadLine();
+                check = Console.ReadLine();
+            }
 
-                  int count;
 
-                  while (!int.TryParse(countInput, out count))
+            _marketableServise.RemoveSaleby2Param(prodCode, count);
+
+            //#region Product Code
+            //Console.WriteLine("\nCixarilacaq satishin mehsul kodunu daxil edin:");
+            //string productCode = Console.ReadLine();
+            //try
+            //{
+            //    _marketableServise.RemoveSaleProduct(productCode);
+
+            //    #region Quantity
+            //    Console.WriteLine("Satishin sayini daxil edin :");
+            //    string quantityInput = Console.ReadLine();
+            //    int count;
+
+            //    while (!int.TryParse(quantityInput, out count))
+            //    {
+            //        Console.WriteLine("Reqem daxil etmelisiniz!");
+            //        quantityInput = Console.ReadLine();
+            //    }
+            //    #endregion
+
+            //    #region Result
+            //    try
+            //    {
+            //       _marketableServise.RemoveSaleby2Param( productCode, count);
+            //        Console.WriteLine("-------------- Mehsul ugurla satishdan legv edildi --------------");
+            //    }
+            //    catch (QuantityExceededException e)
+            //    {
+            //        Console.WriteLine("Bu satishda secdiyiniz mehsulun bu qeder sayi yoxdur !");
+            //    }
+            //    #endregion
+
+            //}
+            //catch (NotFoundExp e)
+            //{
+            //    Console.WriteLine("Bu kodda satish yoxdur !");
+            //}
+            //#endregion
+
+        }
+
+
+
+
+
+
+
+
+    
+    // Summary:
+    // Method created for remove among sales by number
+    // Exception:
+    // Method has not found exception
+    static void RemoveSold()
             {
-                  Console.WriteLine("Your should enter a digit!");
 
-                  countInput = Console.ReadLine();
-            }
+            Console.WriteLine("Enter sale number");
 
 
-           
+            string number = Console.ReadLine();
 
-
-                _marketableServise.RemoveSold(number, count);
-            }
+            _marketableServise.RemoveSale(number);
+              
+        }
         // Summary:
         // Method created for show all sales
         static void ShowAllSales()
@@ -861,7 +888,15 @@ namespace MyFirstProject
                     i++;
                     table.Write();
                 }
- 
+            try
+            {
+                DateTime.Parse(null);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("necessarily must be is fill");
+            }
+                
             }
         // Summary:
         // Method created for searching among sales by amount
@@ -955,9 +990,13 @@ namespace MyFirstProject
             }
            }
 
+        // Summary:
+        // Method created for searching among sales by select number
+        // Exception:
+        // Method has null exception
+        // Method has symbol exception
 
-
-            static void GetSalesByNumber()
+        static void GetSalesByNumber()
             {
 
                 Console.WriteLine("satis nomresini daxil edin");
@@ -971,8 +1010,6 @@ namespace MyFirstProject
 
                 foreach (var item in list)
                 {
-
-
 
                     var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
 
