@@ -128,9 +128,8 @@ namespace MyFirstProject.Infrastructure.Service
         public List<Products> FindProductForChangeByCode(string code)
         {
 
-            var list = _products.FindAll(p => p.ProductCode == code).ToList();
+          return _products.FindAll(p => p.ProductCode == code).ToList();
 
-            return _products;
         }
 
         public List<Products> ShowProductsByCategory(ProductCategory productCategory)
@@ -281,67 +280,44 @@ namespace MyFirstProject.Infrastructure.Service
 
         }
 
-        public void RemoveSaleby2Param(string code, int count)
+        public double RemoveSaleby3Param(string no ,string code, int count)
         {
-            //    Sales sales = new Sales();
+           
+            SalesItem salesItems = new SalesItem();
+           
+            Sales sales = new Sales();
+           
+            Products products = new Products();
 
-            //    double amount = 0;
+            double amount = 0;
+           
+            var prolist = _products.ToList();
+           
+            var salelist = _sales.ToList();
 
-            //    int DeleteIndex = -1;
 
-            //    //for (int i = 0; i < sales.SalesItem.Count; i++)
+            var sale = salelist.Find(r => r.NumberOfSale == no);
 
-            //    //{
-            //    //    var saleItem = sales.SalesItem[i];
-            //    SalesItem saleItem = new SalesItem();
 
-            //    if (code == saleItem.ProductItemsOfSold.ProductCode)
-            //    {
-            //        amount = saleItem.ProductItemsOfSold.ProductPrice * count;
-
-            //        if (saleItem.QuantityItemsOfSold > count)
-            //        {
-            //            saleItem.QuantityItemsOfSold -= count;
-            //        }
-            //        else if (saleItem.QuantityItemsOfSold == count)
-            //        {
-            //            saleItem.QuantityItemsOfSold = 1;
-            //        }
-            //        else
-            //        {
-            //            throw new QuantityExceededException(string.Format("There is no enough quantity {0} of products  ", count));
-            //        }
-            //    }
-            //    //}
-            //    sales.AmmountOfSale -= amount;
-            //    if (DeleteIndex >= 0)
-            //    {
-            //        sales.SalesItem.RemoveAt(DeleteIndex);
-            //    }
-            //    return amount;
-            //}
-
-            bool yoxla = _salesItems.Exists(s => s.NumberOfItem == code && s.QuantityItemsOfSold >= count);
-
-            if (yoxla == true)
+            bool findproduct = prolist.Exists(r => r.ProductCode == code);
+           
+            if (findproduct == true)
             {
-                var sale = _salesItems.Find(s => s.NumberOfItem == code && s.QuantityItemsOfSold >= count);
+                var list = prolist.Find(r => r.ProductCode == code);
+                if (sale.AmmountOfSale > list.ProductPrice * count)
+                {
+                    sale.AmmountOfSale -= list.ProductPrice * count;
 
-                _salesItems.Remove(sale);
-
-                Console.WriteLine("Has been deleted");
+                }
+                else if ((sale.AmmountOfSale == list.ProductPrice * count))
+                {
+                    _sales.Remove(sale);
+                }
             }
-
-            else
-            {
-
-                Console.WriteLine("This number is not found");
-                //throw new SaleNotFoundExp(string.Format("Sale by number {0} not found", number));
-
-            }
+            return amount;
 
         }
-
-    }
-}
+        }
+        }
+    
 

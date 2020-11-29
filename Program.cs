@@ -13,6 +13,8 @@ namespace MyFirstProject
     {
         private static MarketableServise _marketableServise = new MarketableServise();
 
+        #region Main control
+
         // Summary:
         // Created new consol table
         static void Main(string[] args)
@@ -94,6 +96,10 @@ namespace MyFirstProject
 
             Console.WriteLine("==============================================================================");
         }
+        #endregion
+
+        #region First Control Option
+
         // Summary:
         // Created switch method for choise first option 
         static void FirstCase()
@@ -192,6 +198,10 @@ namespace MyFirstProject
 
             } while (SecondSelect != 0);
         }
+        #endregion
+
+        #region Add new product
+
         // Summary:
         // Method created for add new product
         // Exception:
@@ -286,6 +296,10 @@ namespace MyFirstProject
             _marketableServise.AddNewProducts(products);
 
         }
+        #endregion
+
+        #region Edit Current Product
+
         // Summary:
         // Method created for edit current product
         static void EditCurrentProduct()
@@ -303,106 +317,97 @@ namespace MyFirstProject
 
             List<Products> list = _marketableServise.FindProductForChangeByCode(code);
 
-            foreach (var item in list)
+            try
             {
-                if (item.ProductCode == code)
-                {
+            Console.WriteLine("Enter new name of the product");
 
-                    Console.WriteLine("Enter new name of the product");
+            string name = Console.ReadLine();
 
-                    string name = Console.ReadLine();
-
-                    Console.WriteLine("Enter new price of the product");
+            Console.WriteLine("Enter new price of the product");
 
 
-                    string priceInput = Console.ReadLine();
+            string priceInput = Console.ReadLine();
 
-                    double amount;
+            double amount;
 
-                    while (!double.TryParse(priceInput, out amount))
-                    {
-                        Console.WriteLine("Your should enter a digit!");
+            while (!double.TryParse(priceInput, out amount))
+            {
+                Console.WriteLine("Your should enter a digit!");
 
-                        priceInput = Console.ReadLine();
-                    }
-
-                    products.ProductPrice = amount;
-
-                    sale.AmmountOfSale = +products.ProductPrice;
-
-                    Console.WriteLine("Enter new count of the product");
-
-                    string countInput = Console.ReadLine();
-
-                    int count;
-
-                    while (!int.TryParse(countInput, out count))
-                    {
-                        Console.WriteLine("Your should enter a digit!");
-
-                        countInput = Console.ReadLine();
-                    }
-
-                    products.Quantity = count;
-
-                    salesItem.QuantityItemsOfSold = +products.Quantity;
+                priceInput = Console.ReadLine();
+            }
 
 
-                    Console.WriteLine("Enter new category of the product");
+            Console.WriteLine("Enter new count of the product");
 
-                    Console.WriteLine("1. Beverages");
-                    Console.WriteLine("2. Food");
-                    Console.WriteLine("3. Sweets");
+            string countInput = Console.ReadLine();
 
-                    ProductCategory category = (ProductCategory)int.Parse(Console.ReadLine());
+            int count;
 
-                    if ((int)category == 0 || (int)category > 3) throw new Exception("Your choise should be up to 3");
+            while (!int.TryParse(countInput, out count))
+            {
+                Console.WriteLine("Your should enter a digit!");
 
-                    if (category == ProductCategory.Beverages)
-                    {
-                        category = ProductCategory.Beverages;
-                    }
-                    else if (category == ProductCategory.Food)
-                    {
-                        category = ProductCategory.Food;
+                countInput = Console.ReadLine();
+            }
 
-                    }
-                    else if (category == ProductCategory.Sweets)
-                    {
-                        category = ProductCategory.Sweets;
 
-                    }
-                    else
-                    {
-                        Console.WriteLine("You made wrong choise");
-                    }
+            Console.WriteLine("Enter new category of the product");
 
-                    Console.WriteLine("Enter new code of the product");
+            Console.WriteLine("1. Beverages");
+            Console.WriteLine("2. Food");
+            Console.WriteLine("3. Sweets");
 
-                    string cod = Console.ReadLine();
+            ProductCategory category = (ProductCategory)int.Parse(Console.ReadLine());
 
-                    products.ProductCode = cod;
+            if ((int)category == 0 || (int)category > 3) throw new Exception("Your choise should be up to 3");
 
-                    Console.WriteLine("Product has been added");
+            if (category == ProductCategory.Beverages)
+            {
+                category = ProductCategory.Beverages;
+            }
+            else if (category == ProductCategory.Food)
+            {
+                category = ProductCategory.Food;
 
-                    foreach (var prod in list)
-                    {
-                        prod.ProductName = name;
-                        prod.ProductPrice = amount;
-                        prod.Quantity = count;
-                        prod.ProductCategory = category;
-                        prod.ProductCode = cod;
-                    }
+            }
+            else if (category == ProductCategory.Sweets)
+            {
+                category = ProductCategory.Sweets;
 
-                }
+            }
+            else
+            {
+                Console.WriteLine("You made wrong choise");
+            }
 
-                if (products.ProductCode != code)
-                {
-                    Console.WriteLine("is not found");
+            Console.WriteLine("Enter new code of the product");
 
-                }
+            string cod = Console.ReadLine();
+
+
+            Console.WriteLine("Product has been added");
+
+            foreach (var prod in list)
+            {
+                prod.ProductName = name;
+                prod.ProductPrice = amount;
+                prod.Quantity = count;
+                prod.ProductCategory = category;
+                prod.ProductCode = cod;
             }
         }
+                catch (NotFoundExp)
+            {
+
+                Console.WriteLine("Not found");
+            }
+
+           
+        }
+        #endregion
+
+        #region Remove Product By Code
         // Summary:
         // Method created for remove current product by code
         static void RemoveProductByCode()
@@ -416,6 +421,9 @@ namespace MyFirstProject
             _marketableServise.RemoveSaleProduct(code);
 
         }
+        #endregion
+
+        #region Show All Products
         // Summary:
         // Method created for show all products 
         static void ShowAllProducts()
@@ -437,6 +445,9 @@ namespace MyFirstProject
             _marketableServise.ShowAllProduct();
 
         }
+        #endregion
+
+        #region Show Products By Category
         // Summary:
         // Method created for show all products by category
         static void ShowProductsByCategory()
@@ -493,6 +504,9 @@ namespace MyFirstProject
             _marketableServise.ShowProductsByCategory((ProductCategory)selectInt);
 
         }
+        #endregion
+
+        #region Get Products By Price Range
         // Summary:
         // Method created for searching among products by category
         // Exception:
@@ -549,6 +563,9 @@ namespace MyFirstProject
             }
 
         }
+        #endregion
+
+        #region Search Product By Name
         // Summary:
         // Method created for searching among products by name
         // Exception:
@@ -572,6 +589,9 @@ namespace MyFirstProject
                 }
             
             }
+        #endregion
+
+        #region Second Control option
         // Summary:
         // Created switch method for choise second option 
         static void SecondCase()
@@ -675,9 +695,16 @@ namespace MyFirstProject
 
                 } while (SSelect != 0);
 
-            }      
+            }
+        #endregion
 
-            static void AddNewSales()
+        #region Add New Sales
+        // Summary:
+        // Method created for add new sale by 3 parametres
+        // Exception:
+        // Method has can not found exceptions 
+        //Method has format exception
+        static void AddNewSales()
             {
 
 
@@ -711,14 +738,23 @@ namespace MyFirstProject
 
 
 
-            }       // delay
+            }
+        #endregion
 
-            static void RemoveSoldProduct()
+        #region Remove Sold Product
+        // Summary:
+        // Method created for remove added product to sales list
+        // Exception:
+        // Method has can not found exceptions 
+        static void RemoveSoldProduct()
 
             {
+            Console.WriteLine("Enter sold code");
+
+            string Code = Console.ReadLine();
 
 
-            Console.WriteLine("Enter sold product code");
+            Console.WriteLine("Enter product code");
 
             string prodCode = Console.ReadLine();
 
@@ -736,61 +772,20 @@ namespace MyFirstProject
             }
 
 
-            _marketableServise.RemoveSaleby2Param(prodCode, count);
+            _marketableServise.RemoveSaleby3Param(Code,prodCode, count);
 
-            //#region Product Code
-            //Console.WriteLine("\nCixarilacaq satishin mehsul kodunu daxil edin:");
-            //string productCode = Console.ReadLine();
-            //try
-            //{
-            //    _marketableServise.RemoveSaleProduct(productCode);
-
-            //    #region Quantity
-            //    Console.WriteLine("Satishin sayini daxil edin :");
-            //    string quantityInput = Console.ReadLine();
-            //    int count;
-
-            //    while (!int.TryParse(quantityInput, out count))
-            //    {
-            //        Console.WriteLine("Reqem daxil etmelisiniz!");
-            //        quantityInput = Console.ReadLine();
-            //    }
-            //    #endregion
-
-            //    #region Result
-            //    try
-            //    {
-            //       _marketableServise.RemoveSaleby2Param( productCode, count);
-            //        Console.WriteLine("-------------- Mehsul ugurla satishdan legv edildi --------------");
-            //    }
-            //    catch (QuantityExceededException e)
-            //    {
-            //        Console.WriteLine("Bu satishda secdiyiniz mehsulun bu qeder sayi yoxdur !");
-            //    }
-            //    #endregion
-
-            //}
-            //catch (NotFoundExp e)
-            //{
-            //    Console.WriteLine("Bu kodda satish yoxdur !");
-            //}
-            //#endregion
+          
+           
 
         }
+        #endregion
 
-
-
-
-
-
-
-
-    
-    // Summary:
-    // Method created for remove among sales by number
-    // Exception:
-    // Method has not found exception
-    static void RemoveSold()
+        #region  Remove Sold
+        // Summary:
+        // Method created for remove among sales by number
+        // Exception:
+        // Method has not found exception
+        static void RemoveSold()
             {
 
             Console.WriteLine("Enter sale number");
@@ -801,6 +796,9 @@ namespace MyFirstProject
             _marketableServise.RemoveSale(number);
               
         }
+        #endregion
+
+        #region Show All Sales
         // Summary:
         // Method created for show all sales
         static void ShowAllSales()
@@ -835,6 +833,9 @@ namespace MyFirstProject
                 _marketableServise.ShowAllSale();
 
             }
+        #endregion
+
+        #region Get Sales By Date Range
         // Summary:
         // Method created for searching among sales by date
         // Exception:
@@ -898,6 +899,9 @@ namespace MyFirstProject
             }
                 
             }
+        #endregion
+
+        #region Get Sales By Ammount Range
         // Summary:
         // Method created for searching among sales by amount
         // Exception:
@@ -951,6 +955,9 @@ namespace MyFirstProject
                 }
             if (min > max) throw new Exception("minimal value can not be more than maximal value");
                    }
+        #endregion
+
+        #region  Get Sales By Date
         // Summary:
         // Method created for searching among sales by select date
         // Exception:
@@ -989,7 +996,9 @@ namespace MyFirstProject
                      if (date == null) throw new ArgumentNullException("Has not some sales");
             }
            }
+        #endregion
 
+        #region GetSalesByNumber
         // Summary:
         // Method created for searching among sales by select number
         // Exception:
@@ -1022,15 +1031,16 @@ namespace MyFirstProject
 
 
             }
+        #endregion
 
 
-
-
-        }
-    
 
 
     }
+
+
+
+}
 
 
 

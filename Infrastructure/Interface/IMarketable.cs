@@ -29,7 +29,7 @@ namespace MyFirstProject.Infrastructure.Interface
 
         public void RemoveSale(string numberofSale);
 
-        public void RemoveSaleby2Param(string code,int count);
+        public double RemoveSaleby3Param(string no,string code,int count);
 
 
 
