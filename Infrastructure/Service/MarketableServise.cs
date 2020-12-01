@@ -21,7 +21,8 @@ namespace MyFirstProject.Infrastructure.Service
         private List<SalesItem> _salesItems;
 
         public List<SalesItem> SalesItems => _salesItems;
-
+      
+        #region Default Constructor
         // Summary:
         // Created default goods
         public MarketableServise()
@@ -98,7 +99,11 @@ namespace MyFirstProject.Infrastructure.Service
             };
 
         }
+        #endregion
 
+        #region Method of Products
+        // Summary:
+        // Methods created for support code on Program cs
         public void AddNewProducts(Products product)
         {
             _products.Add(product);
@@ -248,160 +253,6 @@ namespace MyFirstProject.Infrastructure.Service
             return _products;
         }
 
-        public void ShowAllSale()
-        {
-
-            _salesItems.Count();
-
-
-        }
-
-        public List<Sales> GetSaleByDateRange(DateTime startDate, DateTime endDate)
-        {
-            bool date = _sales.Exists(p => p.DateOfSold >= startDate && p.DateOfSold <= endDate);
-
-            var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
-
-            if (date == true)
-            {
-                var Date = _sales.FindAll(p => p.DateOfSold >= startDate && p.DateOfSold <= endDate);
-
-                int i = 1;
-              
-                foreach (var item in Date)
-                {
-
-                    var table = new ConsoleTable("#", "Number", "Amount", "Quantity", "Date");
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale.ToString("#.##"), count, item.DateOfSold.ToString("dd.MM.yyyy"));
-                    i++;
-                    table.Write();
-                }
-            }
-            else
-                    if (endDate < startDate)
-            {
-                if (endDate < startDate) throw new NotOrdinaryException("Not ordinary format,end date can not be higher than start date");
-                        }
-
-
-            else
-            {
-                Console.WriteLine("Has not any sales from " + startDate + " till " + endDate);
-            }
-            return _sales;
-       
-            }
-       
-        public List<Sales> GetSaleByDate(DateTime date)
-        {
-            bool Date = _sales.Exists(s => s.DateOfSold == date);
-
-            if (Date == true) {
-
-                var ddate = _sales.FindAll(s => s.DateOfSold == date);
-
-                int i = 1;
-
-                var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
-
-                foreach (var item in ddate)
-                {
-
-                    var table = new ConsoleTable("#", "Number", "Amount", "Quantity", "Date");
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, count, item.DateOfSold.ToString("dd.MM.yyyy"));
-
-                    i++;
-
-                    table.Write();
-
-                    //if (date == null) throw new ArgumentNullException("Has not some sales");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Has not any sales on " + date);
-            }
-            return _sales;
-        }
-
-        public List<Sales> GetSaleByAmountRange(double minAmout, double maxAmout)
-        {
-
-            bool amount = _sales.Exists(p => p.AmmountOfSale >= minAmout && p.AmmountOfSale <= maxAmout);
-
-            if (amount == true)
-            {
-
-                var Amount = _sales.FindAll(p => p.AmmountOfSale >= minAmout && p.AmmountOfSale <= maxAmout);
-
-                int i = 1;
-
-                var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
-
-                foreach (var item in Amount)
-                {
-                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
-
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale.ToString("#.##"), count, item.DateOfSold);
-                    i++;
-                    table.Write();
-                }
-            }
-
-            else if (minAmout > maxAmout)
-            {
-                Console.WriteLine("minimal value can not be exceed than maximal value");
-
-                if (minAmout > maxAmout) throw new ValueExceedException("minimal value can not be exceed than maximal value");
-            }
-
-
-            else
-            {
-                Console.WriteLine("Has not any sales in range from " + minAmout + " till " + maxAmout);
-
-
-            }
-
-
-            return _sales;
-        }
-
-        public List<Sales> GetSaleByNumber(int numberOfsale)
-        {
-            bool num = _sales.Exists(s => s.NumberOfSale == numberOfsale);
-
-            if (num == true)
-            {
-                var number = _sales.FindAll(s => s.NumberOfSale == numberOfsale);
-
-                int i = 1;
-              
-                var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
-
-                foreach (var item in number)
-                {
-
-                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, count, item.DateOfSold.ToString("dd.MM.yyyy"));
-                    i++;
-                    table.Write();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Has not any sales by number - " + numberOfsale);
-
-
-            }
-            return _sales;
-        }
-
-       
         public List<Products> ShowProductsByCategory(ProductCategory productCategory)
         {
             bool show = _products.Exists(p => p.ProductCategory == productCategory);
@@ -435,7 +286,8 @@ namespace MyFirstProject.Infrastructure.Service
         {
             bool diff = _products.Exists(p => p.ProductPrice >= minPrice && p.ProductPrice <= maxPrice);
 
-            if (diff == true) {
+            if (diff == true)
+            {
 
                 List<Products> show = _products.FindAll(p => p.ProductPrice >= minPrice && p.ProductPrice <= maxPrice);
 
@@ -462,7 +314,8 @@ namespace MyFirstProject.Infrastructure.Service
         {
             bool name = _products.Exists(p => p.ProductName == text || p.ProductName.Contains(text));
 
-            if (name == true) {
+            if (name == true)
+            {
 
                 var tekst = _products.FindAll(p => p.ProductName == text || p.ProductName.Contains(text));
 
@@ -488,35 +341,11 @@ namespace MyFirstProject.Infrastructure.Service
 
 
         }
-
-        
-
-        public void RemoveSale(int number)
-        {
-
-
-            bool yoxla = _sales.Exists(s => s.NumberOfSale == number);
-
-            if (yoxla == true)
-            {
-                var sale = _sales.Find(s => s.NumberOfSale == number);
-
-                _sales.Remove(sale);
-
-                Console.WriteLine("Has been deleted");
-            }
-            else
-            {
-
-                Console.WriteLine("This number is not found");
-
-                throw new SaleNotFoundExp(string.Format("Sale by number {0} not found", number));
-
-            }
-
-
-        }
-
+        #endregion
+      
+        #region Method of Sales
+        //Summary:
+        // There are methods are created for support code on Programm cs 
         public void AddNewSale(string code, int count)
         {
             List<Products> products = new List<Products>();
@@ -573,73 +402,261 @@ namespace MyFirstProject.Infrastructure.Service
                     sale.DateOfSold = saleDate;
 
                     _sales.Add(sale);
-               Console.WriteLine("--------------- New sales is added ----------------");
+                    Console.WriteLine("--------------- New sales is added ----------------");
                 }
 
-                
+
             }
-            }
-       
+        }
+
         public double RemoveSaleby3Param(int no, string code, int count)
+        {
+
+            SalesItem salesItems = new SalesItem();
+
+            Sales sales = new Sales();
+
+            Products products = new Products();
+
+            double amount = 0;
+
+            var Lprod = _products.ToList();
+
+            var Lsale = _sales.ToList();
+
+            bool checkNumber = _sales.Exists(s => s.NumberOfSale == no);
+
+            if (checkNumber == false)
             {
 
-                SalesItem salesItems = new SalesItem();
+                Console.WriteLine("Has not any sales by this number");
+            }
+            else
+            {
+                var sale = Lsale.Find(r => r.NumberOfSale == no);
 
-                Sales sales = new Sales();
+                bool checkProdNumber = Lprod.Exists(p => p.ProductCode == code);
 
-                Products products = new Products();
-
-                double amount = 0;
-
-                var Lprod = _products.ToList();
-
-                var Lsale = _sales.ToList();
-
-                bool checkNumber = _sales.Exists(s => s.NumberOfSale == no);
-
-                if (checkNumber == false)
+                if (checkProdNumber == false)
                 {
 
-                    Console.WriteLine("Has not any sales by this number");
+                    Console.WriteLine("Has not found");
                 }
                 else
                 {
-                    var sale = Lsale.Find(r => r.NumberOfSale == no);
+                    var list = Lprod.Find(r => r.ProductCode == code);
 
-                    bool checkProdNumber = Lprod.Exists(p => p.ProductCode == code);
-
-                    if (checkProdNumber == false)
+                    if (sale.AmmountOfSale > list.ProductPrice * count)
                     {
+                        sale.AmmountOfSale -= list.ProductPrice * count;
+                    }
+                    else if (sale.AmmountOfSale == list.ProductPrice * count)
+                    {
+                        _sales.Remove(sale);
 
-                        Console.WriteLine("Has not found");
+                        Console.WriteLine("Sales has been removed");
                     }
                     else
                     {
-                        var list = Lprod.Find(r => r.ProductCode == code);
 
-                        if (sale.AmmountOfSale > list.ProductPrice * count)
-                        {
-                            sale.AmmountOfSale -= list.ProductPrice * count;
-                        }
-                        else if (sale.AmmountOfSale == list.ProductPrice * count)
-                        {
-                            _sales.Remove(sale);
-
-                        Console.WriteLine("Sales has been removed");
-                        }
-                        else
-                        {
-
-                            Console.WriteLine("Has not that quantity of sales, please try again");
-                        }
+                        Console.WriteLine("Has not that quantity of sales, please try again");
                     }
-
                 }
-                return amount;
+
+            }
+            return amount;
+
+        }
+
+        public void RemoveSale(int number)
+        {
+
+
+            bool yoxla = _sales.Exists(s => s.NumberOfSale == number);
+
+            if (yoxla == true)
+            {
+                var sale = _sales.Find(s => s.NumberOfSale == number);
+
+                _sales.Remove(sale);
+
+                Console.WriteLine("Has been deleted");
+            }
+            else
+            {
+
+                Console.WriteLine("This number is not found");
+
+                throw new SaleNotFoundExp(string.Format("Sale by number {0} not found", number));
 
             }
 
+
         }
+       
+        public void ShowAllSale()
+        {
+
+            _salesItems.Count();
+
+
+        }
+
+        public List<Sales> GetSaleByDateRange(DateTime startDate, DateTime endDate)
+        {
+            bool date = _sales.Exists(p => p.DateOfSold >= startDate && p.DateOfSold <= endDate);
+
+            var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
+
+            if (date == true)
+            {
+                var Date = _sales.FindAll(p => p.DateOfSold >= startDate && p.DateOfSold <= endDate);
+
+                int i = 1;
+              
+                foreach (var item in Date)
+                {
+
+                    var table = new ConsoleTable("#", "Number", "Amount", "Quantity", "Date");
+
+                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale.ToString("#.##"), count, item.DateOfSold.ToString("dd.MM.yyyy"));
+                    i++;
+                    table.Write();
+                }
+            }
+            else
+                    if (endDate < startDate)
+            {
+                if (endDate < startDate) throw new NotOrdinaryException("Not ordinary format,end date can not be higher than start date");
+                        }
+
+
+            else
+            {
+                Console.WriteLine("Has not any sales from " + startDate + " till " + endDate);
+            }
+            return _sales;
+       
+            }
+
+
+        public List<Sales> GetSaleByAmountRange(double minAmout, double maxAmout)
+        {
+
+            bool amount = _sales.Exists(p => p.AmmountOfSale >= minAmout && p.AmmountOfSale <= maxAmout);
+
+            if (amount == true)
+            {
+
+                var Amount = _sales.FindAll(p => p.AmmountOfSale >= minAmout && p.AmmountOfSale <= maxAmout);
+
+                int i = 1;
+
+                var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
+
+                foreach (var item in Amount)
+                {
+                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
+
+
+                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale.ToString("#.##"), count, item.DateOfSold);
+                    i++;
+                    table.Write();
+                }
+            }
+
+            else if (minAmout > maxAmout)
+            {
+                Console.WriteLine("minimal value can not be exceed than maximal value");
+
+                if (minAmout > maxAmout) throw new ValueExceedException("minimal value can not be exceed than maximal value");
+            }
+
+
+            else
+            {
+                Console.WriteLine("Has not any sales in range from " + minAmout + " till " + maxAmout);
+
+
+            }
+
+
+            return _sales;
+        }
+       
+        public List<Sales> GetSaleByDate(DateTime date)
+        {
+            bool Date = _sales.Exists(s => s.DateOfSold == date);
+
+            if (Date == true) {
+
+                var ddate = _sales.FindAll(s => s.DateOfSold == date);
+
+                int i = 1;
+
+                var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
+
+                foreach (var item in ddate)
+                {
+
+                    var table = new ConsoleTable("#", "Number", "Amount", "Quantity", "Date");
+
+                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, count, item.DateOfSold.ToString("dd.MM.yyyy"));
+
+                    i++;
+
+                    table.Write();
+
+                    //if (date == null) throw new ArgumentNullException("Has not some sales");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Has not any sales on " + date);
+            }
+            return _sales;
+        }
+
+        public List<Sales> GetSaleByNumber(int numberOfsale)
+        {
+            bool num = _sales.Exists(s => s.NumberOfSale == numberOfsale);
+
+            if (num == true)
+            {
+                var number = _sales.FindAll(s => s.NumberOfSale == numberOfsale);
+
+                int i = 1;
+              
+                var count = SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
+
+                foreach (var item in number)
+                {
+
+                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
+
+                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, count, item.DateOfSold.ToString("dd.MM.yyyy"));
+                    i++;
+                    table.Write();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Has not any sales by number - " + numberOfsale);
+
+
+            }
+            return _sales;
+        }
+
+
+        #endregion
+
+
+
+
+
+
     }
+}
 
 
