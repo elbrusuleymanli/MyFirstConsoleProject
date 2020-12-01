@@ -7,7 +7,7 @@ namespace MyFirstProject.Infrastructure.Model
         public class SalesItem 
     {
         
-        public string NumberOfItem { get; set; }
+        public int NumberOfItem { get; set; }
 
         public Products ProductItemsOfSold { get; set; }
                
