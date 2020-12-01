@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Text;
 using MyFirstProject.Infrastructure.Enum;
 using MyFirstProject.Infrastructure.Model;
 using MyFirstProject.Infrastructure.Service;
 using ConsoleTables;
 using System.Collections.Generic;
 using MyFirstProject.Infrastructure.Exceptions;
+using System.Linq;
 
 namespace MyFirstProject
 {
@@ -23,10 +23,14 @@ namespace MyFirstProject
 
             do
             {
-
-                Console.WriteLine("==========Manage Sales and Products==========");
+                Console.WriteLine("====   ====    ===     ======   ==    ==  =======  ========");
+                Console.WriteLine("=   =  =  =   =   =    ==   ==  == ==     ==          == ");
+                Console.WriteLine("=   =  =  =  = === =   ==  =    ===       =======     == ");
+                Console.WriteLine("=   ===   = =       =  ==  =    == ==     ==          == ");
+                Console.WriteLine("=         ==         = ==    =  ==    ==  =======     == ");
+                Console.WriteLine("===============Manage Sales and Products================");
                 Console.WriteLine("                                                       ");
-                Console.WriteLine("==========================MENU=========================");
+                Console.WriteLine("==========================MENU==========================");
                 Console.WriteLine("1. Carry out operations on products");
                 Console.WriteLine("2. Carry out operations on sales");
                 Console.WriteLine("3. Leave out");
@@ -94,7 +98,7 @@ namespace MyFirstProject
 
 
 
-            Console.WriteLine("==============================================================================");
+            Console.WriteLine("========================================================");
         }
         #endregion
 
@@ -106,9 +110,9 @@ namespace MyFirstProject
         {
 
             int SecondSelect;
-            Console.WriteLine("==============================================================================");
+            Console.WriteLine("========================================================");
             Console.WriteLine("Which operations you wanna make?");
-            Console.WriteLine("==============================================================================");
+            Console.WriteLine("========================================================");
 
             do
             {
@@ -210,38 +214,51 @@ namespace MyFirstProject
         {
             Products products = new Products();
 
-            ProductCategory category;
-
-            Console.WriteLine("Choose the category of the product ");
-
-            Console.WriteLine("1. Beverages");
-            Console.WriteLine("2. Food");
-            Console.WriteLine("3. Sweets");
-
-
-
-            category = (ProductCategory)int.Parse(Console.ReadLine());
-
-            if ((int)category == 0 || (int)category > 3) throw new Exception("Your choise should be up to 3");
-
-            switch (category)
+            int selectInt;
+            do
             {
+                Console.WriteLine("Choose the category of the product ");
 
-                case (ProductCategory)1:
-                    products.ProductCategory = ProductCategory.Beverages;
-                    break;
+                Console.WriteLine("0. Food");
+                Console.WriteLine("1. Beverages");
+                Console.WriteLine("2. Sweets");
+              
+                string select = Console.ReadLine();
 
-                case (ProductCategory)2:
-                    products.ProductCategory = ProductCategory.Food;
-                    break;
+                while (!int.TryParse(select, out selectInt))
+                {
+                    Console.WriteLine("");
 
-                case (ProductCategory)3:
-                    products.ProductCategory = ProductCategory.Sweets;
-                    break;
-                default:
-                    Console.WriteLine("Please, try again");
-                    break;
-            }
+                    Console.WriteLine("You should enter a digit!: ");
+                    
+                    select = Console.ReadLine();
+                }
+
+                switch (selectInt)
+                {
+                    case 0:
+                        products.ProductCategory = ProductCategory.Food;
+                        break;
+                    case 1:
+                        products.ProductCategory = ProductCategory.Beverages;
+                        break;
+                    case 2:
+                        products.ProductCategory = ProductCategory.Sweets;
+                        break;
+
+                    default:
+                        Console.WriteLine("--------------------------------");
+                        Console.WriteLine("Your choise is wrong, please try again");
+                        Console.WriteLine("--------------------------------");
+                        break;
+                }
+
+
+            } while (selectInt >2);
+
+            if (selectInt > 2) throw new outRangeException("Your choise should be up to 3");
+
+
 
 
             Console.WriteLine("Enter the name of the product:");
@@ -304,106 +321,12 @@ namespace MyFirstProject
         // Method created for edit current product
         static void EditCurrentProduct()
         {
-            Products products = new Products();
-
-            Sales sale = new Sales();
-
-            SalesItem salesItem = new SalesItem();
-
-
             Console.WriteLine("Enter code of product for search");
 
             string code = Console.ReadLine();
 
-            List<Products> list = _marketableServise.FindProductForChangeByCode(code);
-
-            try
-            {
-            Console.WriteLine("Enter new name of the product");
-
-            string name = Console.ReadLine();
-
-            Console.WriteLine("Enter new price of the product");
-
-
-            string priceInput = Console.ReadLine();
-
-            double amount;
-
-            while (!double.TryParse(priceInput, out amount))
-            {
-                Console.WriteLine("Your should enter a digit!");
-
-                priceInput = Console.ReadLine();
-            }
-
-
-            Console.WriteLine("Enter new count of the product");
-
-            string countInput = Console.ReadLine();
-
-            int count;
-
-            while (!int.TryParse(countInput, out count))
-            {
-                Console.WriteLine("Your should enter a digit!");
-
-                countInput = Console.ReadLine();
-            }
-
-
-            Console.WriteLine("Enter new category of the product");
-
-            Console.WriteLine("1. Beverages");
-            Console.WriteLine("2. Food");
-            Console.WriteLine("3. Sweets");
-
-            ProductCategory category = (ProductCategory)int.Parse(Console.ReadLine());
-
-            if ((int)category == 0 || (int)category > 3) throw new Exception("Your choise should be up to 3");
-
-            if (category == ProductCategory.Beverages)
-            {
-                category = ProductCategory.Beverages;
-            }
-            else if (category == ProductCategory.Food)
-            {
-                category = ProductCategory.Food;
-
-            }
-            else if (category == ProductCategory.Sweets)
-            {
-                category = ProductCategory.Sweets;
-
-            }
-            else
-            {
-                Console.WriteLine("You made wrong choise");
-            }
-
-            Console.WriteLine("Enter new code of the product");
-
-            string cod = Console.ReadLine();
-
-
-            Console.WriteLine("Product has been added");
-
-            foreach (var prod in list)
-            {
-                prod.ProductName = name;
-                prod.ProductPrice = amount;
-                prod.Quantity = count;
-                prod.ProductCategory = category;
-                prod.ProductCode = cod;
-            }
-        }
-                catch (NotFoundExp)
-            {
-
-                Console.WriteLine("Not found");
-            }
-
-           
+          _marketableServise.FindProductForChangeByCode(code);
+             
         }
         #endregion
 
@@ -415,8 +338,6 @@ namespace MyFirstProject
             Console.WriteLine("Enter code of product for remove");
 
             string code = Console.ReadLine();
-
-
 
             _marketableServise.RemoveSaleProduct(code);
 
@@ -459,23 +380,19 @@ namespace MyFirstProject
             int selectInt;
             do
             {
-                #region Product Category Menu 
                 Console.WriteLine("Choose category for according to the desired product");
 
                 Console.WriteLine("0. Food");
                 Console.WriteLine("1. Beverages");
                 Console.WriteLine("2. Sweets");
-                #endregion
+               
 
-
-                Console.WriteLine("");
-                Console.WriteLine("Make your choise");
                 string select = Console.ReadLine();
 
                 while (!int.TryParse(select, out selectInt))
                 {
-                    Console.WriteLine("");
-                    Console.Write("You should enter a digit!: ");
+                   
+                    Console.WriteLine("You should enter a digit!: ");
                     select = Console.ReadLine();
                 }
 
@@ -499,12 +416,12 @@ namespace MyFirstProject
                 }
 
 
-            } while (selectInt == 3);
+            } while (selectInt > 2);
 
             _marketableServise.ShowProductsByCategory((ProductCategory)selectInt);
 
         }
-        #endregion
+        #endregion ////+    //+
 
         #region Get Products By Price Range
         // Summary:
@@ -547,20 +464,7 @@ namespace MyFirstProject
             if (Minprice > Maxprice) throw new NotOrdinaryException ("Minimal value too much than maximal value");
 
 
-            var list = _marketableServise.GetProductByPriceRange(Minprice, Maxprice);
-
-            int i = 1;
-            foreach (var item in list)
-            {
-                var table = new ConsoleTable("#", "Name", "Price", "Category", "Quantuty", "Code");
-
-
-                i++;
-                table.AddRow(i, item.ProductName, item.ProductPrice, item.ProductCategory, item.Quantity, item.ProductCode);
-
-                table.Write();
-
-            }
+             _marketableServise.GetProductByPriceRange(Minprice, Maxprice);
 
         }
         #endregion
@@ -572,22 +476,14 @@ namespace MyFirstProject
         // Method has can not found exceptions 
         static void SearchProductByName()
             {
-            Products products = new Products();
-                Console.WriteLine("Enter text");
-              string text = Console.ReadLine();
-            try
-                {
-
-                    var list = _marketableServise.SearchProductByName(text);
-
-                }
-                catch (NotFoundExp)
-                {
-                   
-                    Console.WriteLine("Can not found");
-                
-                }
             
+            Console.WriteLine("Enter full or part text of what you search ");
+             
+            string text = Console.ReadLine();
+          
+            _marketableServise.SearchProductByName(text);
+
+               
             }
         #endregion
 
@@ -599,9 +495,10 @@ namespace MyFirstProject
                 int SSelect;
 
                 Console.WriteLine("Which operations you wanna make?");
-                Console.WriteLine("==============================================================================");
-                do
-                {
+                Console.WriteLine("===================================================================");
+
+            do
+            {
 
                     string Choise1 = Console.ReadLine();
 
@@ -628,54 +525,54 @@ namespace MyFirstProject
                         case 1:
 
                             Console.WriteLine("1. Add new sales");
-                            Console.WriteLine("==============================================================================");
+                            Console.WriteLine("=========================================================");
                             AddNewSales();
                             break;
                         case 2:
 
                             Console.WriteLine("2. Return any product on sales");
-                            Console.WriteLine("==============================================================================");
+                            Console.WriteLine("=========================================================");
                             RemoveSoldProduct();
                             break;
 
                         case 3:
 
                             Console.WriteLine("3.Remove sales ");
-                            Console.WriteLine("==============================================================================");
+                            Console.WriteLine("==========================================================");
                             RemoveSold();
                             break;
 
                         case 4:
 
                             Console.WriteLine("4.Show all sales(number,amount,product quantity,date)");
-                            Console.WriteLine("===========================================================================");
-                            ShowAllSales();
+                            Console.WriteLine("==========================================================");
+                        ShowAllSales();
                             break;
 
                         case 5:
                             Console.WriteLine("5. Get sales by date range ");
-                            Console.WriteLine("===========================================================================");
-                            GetSalesByDateRange();
+                            Console.WriteLine("==========================================================");
+                        GetSalesByDateRange();
                             break;
 
                         case 6:
 
                             Console.WriteLine("6. Get sales by amount range");
-                            Console.WriteLine("==============================================================================");
-                            GetSalesByAmmountRange();
+                            Console.WriteLine("==========================================================");
+                        GetSalesByAmmountRange();
                             break;
 
                         case 7:
                             Console.WriteLine("7. Show sales within the given date");
-                            Console.WriteLine("===========================================================================");
-                            GetSalesByDate();
+                            Console.WriteLine("==========================================================");
+                        GetSalesByDate();
 
                             break;
 
                         case 8:
                             Console.WriteLine("8. Show sale details by according to the given number");
-                            Console.WriteLine("==============================================================================");
-                            GetSalesByNumber();
+                            Console.WriteLine("==========================================================");
+                        GetSalesByNumber();
                             break;
 
 
@@ -707,14 +604,17 @@ namespace MyFirstProject
         static void AddNewSales()
             {
 
+            Console.WriteLine("Enter the code of the product");
 
+            List<Products> prodcode = new List<Products>();
+            
+            string code = Console.ReadLine();
 
-                Console.WriteLine("Enter the code of the product");
+           
+            Console.WriteLine("Enter the count of the product of sold");
 
-                string code = Console.ReadLine();
-                SalesItem salesItem = new SalesItem();
-                Console.WriteLine("Enter the count of the product of sold");
                 int count;
+
                 string input = Console.ReadLine();
 
                 while (!int.TryParse(input, out count))
@@ -724,21 +624,12 @@ namespace MyFirstProject
                     input = Console.ReadLine();
                 }
 
-
-
-                _marketableServise.AddNewSale(code, count);
-
-
-
-
-
-                Console.WriteLine("--------------- New sales is added ----------------");
-
-
-
-
-
+                  _marketableServise.AddNewSale(code, count);
+            
+               
             }
+           
+            
         #endregion
 
         #region Remove Sold Product
@@ -749,29 +640,47 @@ namespace MyFirstProject
         static void RemoveSoldProduct()
 
             {
-            Console.WriteLine("Enter sold code");
+        
+           
+            Console.WriteLine("Enter sales number ");
+           
+           int Code;
+          
+            string FakeProductQuantity = Console.ReadLine();
 
-            string Code = Console.ReadLine();
-
-
-            Console.WriteLine("Enter product code");
-
-            string prodCode = Console.ReadLine();
-
-            Console.WriteLine("Enter quantity of this product");
-
-            int count;
-
-            string check = Console.ReadLine();
-
-            while (!int.TryParse(check,out count))
+            while (!int.TryParse(FakeProductQuantity, out Code))
             {
-                Console.WriteLine("You should enter a digit");
-                
-                check = Console.ReadLine();
+
+                Console.Write("You should enter a digit");
+
+                FakeProductQuantity = Console.ReadLine();
             }
 
 
+
+            Console.WriteLine("Enter code of product ");
+           
+            string prodCode = Console.ReadLine();
+            
+         
+
+           
+            Console.WriteLine("Enter count of product ");
+
+            string ProductQuantity = Console.ReadLine();
+          
+            int count;
+
+            while (!int.TryParse(ProductQuantity, out count))
+            {
+                
+                Console.Write("You should enter a digit");
+
+                ProductQuantity = Console.ReadLine();
+            }
+          
+
+            
             _marketableServise.RemoveSaleby3Param(Code,prodCode, count);
 
           
@@ -790,8 +699,18 @@ namespace MyFirstProject
 
             Console.WriteLine("Enter sale number");
 
+            string FakeProductQuantity = Console.ReadLine();
 
-            string number = Console.ReadLine();
+            int number;
+
+            while (!int.TryParse(FakeProductQuantity, out number))
+            {
+
+                Console.WriteLine("You should enter a digit");
+
+                FakeProductQuantity = Console.ReadLine();
+            }
+
 
             _marketableServise.RemoveSale(number);
               
@@ -807,11 +726,12 @@ namespace MyFirstProject
                 Console.WriteLine("-------------- CURRENT SALES --------------");
 
 
-                var table = new ConsoleTable("#", "Number", "Amount", "Quantity", "data");
+                var table = new ConsoleTable("#","Sales number" , "Amount", "Quantity", "data");
 
                 int i = 1;
 
 
+                var count = _marketableServise.SalesItems.Select(s => s.QuantityItemsOfSold).FirstOrDefault();
 
                 foreach (var item in _marketableServise.Sales)
                 {
@@ -821,10 +741,9 @@ namespace MyFirstProject
                     List<SalesItem> salesItem = new List<SalesItem>();
 
 
+               
 
-
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, item.SalesItem.Count, item.DateOfSold.ToString("dd.MM.yyyy"));
+                table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, count, item.DateOfSold.ToString("dd.MM.yyyy"));
                     i++;
 
                 }
@@ -843,61 +762,39 @@ namespace MyFirstProject
         // Method has format exception
         static void GetSalesByDateRange()
 
-            {
+        {
+           
 
-                Console.WriteLine("-------------- Show sales by date range --------------");
+            Console.WriteLine("-------------- Show sales by date range --------------");
 
-
-                Console.WriteLine("Enter start date");
+            Console.WriteLine("Enter start date (dd.mm.yyyy)");
+           
+            string DateInput = Console.ReadLine();
 
             DateTime start;
 
-            string fake = Console.ReadLine();
-
-            while (!DateTime.TryParse(fake,out start))
+            while (!DateTime.TryParse(DateInput, out start))
             {
-                Console.WriteLine("Please,enter correct format of date time");
-                
-                fake = Console.ReadLine();
+                Console.WriteLine("Please, enter correct format of date time(dd.mm.yyyy)!");
+
+                DateInput = Console.ReadLine();
             }
-
-                Console.WriteLine("Enter end date");
-
-            DateTime end;
+            Console.WriteLine("Enter end date (dd.mm.yyyy)");
            
-            string fake1 = Console.ReadLine();
+            DateTime end;
 
-            while (!DateTime.TryParse(fake1, out end))
-            {
-                Console.WriteLine("Please,enter correct format of date time");
+                string fake1 = Console.ReadLine();
 
-                fake1 = Console.ReadLine();
-            }
-
-
-            var list = _marketableServise.GetSaleByDateRange(start, end);
-                int i = 1;
-                foreach (var item in list)
+                while (!DateTime.TryParse(fake1, out end))
                 {
+                    Console.WriteLine("Please,enter correct format of date time (dd.mm.yyyy)");
 
-
-                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
-
-
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale.ToString("#.##"), item.SalesItem.Count, item.DateOfSold.ToString("dd.MM.yyyy"));
-                    i++;
-                    table.Write();
+                    fake1 = Console.ReadLine();
                 }
-            try
-            {
-                DateTime.Parse(null);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("necessarily must be is fill");
-            }
-                
+            _marketableServise.GetSaleByDateRange(start, end);
+ 
+        
+  
             }
         #endregion
 
@@ -939,21 +836,9 @@ namespace MyFirstProject
 
                     maxAmmout = (Console.ReadLine());
                 }
-                var list = _marketableServise.GetSaleByAmountRange(min, max);
-                int i = 1;
-                foreach (var item in list)
-                {
-
-
-                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
-
-
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, item.SalesItem.Count, item.DateOfSold);
-                    i++;
-                    table.Write();
-                }
-            if (min > max) throw new Exception("minimal value can not be more than maximal value");
+                
+                _marketableServise.GetSaleByAmountRange(min, max);
+               
                    }
         #endregion
 
@@ -967,7 +852,7 @@ namespace MyFirstProject
         static void GetSalesByDate()
             {
 
-                Console.WriteLine(" Enter start date");
+                Console.WriteLine(" Enter start date(dd.mm.yyyy)");
 
                 string DateInput = Console.ReadLine();
 
@@ -975,26 +860,14 @@ namespace MyFirstProject
 
                 while (!DateTime.TryParse(DateInput, out date))
                 {
-                    Console.WriteLine("Please, enter correct format of date time!");
+                    Console.WriteLine("Please, enter correct format of date time!(dd.mm.yyyy)");
 
                     DateInput = Console.ReadLine();
                 }
 
-                List<Sales> list = _marketableServise.GetSaleByDate(date);
+                 _marketableServise.GetSaleByDate(date);
 
-                int i = 1;
-
-                foreach (var item in list)
-                {
-
-                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, item.SalesItem.Count, item.DateOfSold.ToString("dd.MM.yyyy"));
-                    i++;
-                    table.Write();
-                
-                     if (date == null) throw new ArgumentNullException("Has not some sales");
-            }
+               
            }
         #endregion
 
@@ -1010,25 +883,18 @@ namespace MyFirstProject
 
                 Console.WriteLine("satis nomresini daxil edin");
 
-                string no = Console.ReadLine();
+            int no;
 
+            string number = Console.ReadLine();
 
-                List<Sales> list = _marketableServise.GetSaleByNumber(no);
+            while (!int.TryParse(number,out no))
+            {
+                Console.WriteLine("you should enter a digit");
 
-                int i = 1;
+                number = Console.ReadLine();
+            }
 
-                foreach (var item in list)
-                {
-
-                    var table = new ConsoleTable("#", "Number", "amount", "quantity", "date");
-
-
-
-                    table.AddRow(i, item.NumberOfSale, item.AmmountOfSale, item.SalesItem.Count, item.DateOfSold.ToString("dd.MM.yyyy"));
-                    i++;
-                    table.Write();
-                }
-
+                _marketableServise.GetSaleByNumber(no);
 
             }
         #endregion
